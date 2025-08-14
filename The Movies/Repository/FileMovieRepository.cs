@@ -9,16 +9,27 @@ namespace The_Movies.Repository
 {
     public class FileMovieRepository
     {
-        // filepath
         private string _filePath;
-        public List<Movie> movieList;
+        private List<Movie> movieList;
+
+        public string FilePath
+        {
+            get { return _filePath; }
+            set { _filePath = value; }
+        }
+        public List<Movie> MovieList
+        {
+            get { return movieList; }
+            set { movieList = value; }
+        }
 
         // Constructor
         public FileMovieRepository(string filePath)
         {
             _filePath = filePath;
         }
-        // Methods to read and write movies to the file
+
+        // Methods
         public void AddMovie(Movie movie)
         {
             movieList.Add(movie);
@@ -26,6 +37,6 @@ namespace The_Movies.Repository
             using var writer = new System.IO.StreamWriter(_filePath, true);
             writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre}");
         }
-
+        
     }
 }
