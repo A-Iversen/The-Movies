@@ -22,19 +22,19 @@
             </Button.Style>
         </Button>
         <!-- Logo -->
-        <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="/Skærmbillede 2025-08-14 135002.png"/>
+        <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
         <!-- Titel -->
-        <TextBlock HorizontalAlignment="Left" Margin="210,127,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="210,143,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="207,128,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="207,144,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
         <!-- Varighed -->
-        <TextBlock HorizontalAlignment="Left" Margin="210,177,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="210,193,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="207,178,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="207,194,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
         <!-- Filmgenre -->
-        <TextBlock HorizontalAlignment="Left" Margin="210,221,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="210,237,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="207,222,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="207,238,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
         <!-- Instruktør -->
-        <TextBlock HorizontalAlignment="Left" Margin="210,265,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="210,281,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
 
 
     </Grid>
