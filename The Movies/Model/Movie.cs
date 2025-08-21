@@ -12,6 +12,7 @@ namespace The_Movies.Model
         private string _title;
         private double _duration;
         private string _genre;
+        private string _director;
 
         public string Title
         {
@@ -28,13 +29,19 @@ namespace The_Movies.Model
             get { return _genre; }
             set { _genre = value; }
         }
+        public string Director
+        {
+            get { return _director; }
+            set { _director = value; }
+        }
 
         // Constructor
-        public Movie(string title, double duration, string genre)
+        public Movie(string title, double duration, string genre, string director)
         {
             _title = title;
             _duration = duration;
             _genre = genre;
+            _director = director;
         }
 
         // Methods

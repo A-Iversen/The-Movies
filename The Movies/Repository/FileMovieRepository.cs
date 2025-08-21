@@ -49,7 +49,7 @@ namespace The_Movies.Repository
                             {
                                 if (double.TryParse(parts[1], out double duration))
                                 {
-                                    Movie movie = new Movie(parts[0], duration, parts[2]);
+                                    Movie movie = new Movie(parts[0], duration, parts[2], parts[3]);
                                     movieList.Add(movie);
                                 }
                             }
@@ -72,7 +72,7 @@ namespace The_Movies.Repository
             try
             {
                 using var writer = new System.IO.StreamWriter(_filePath, true);
-                writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre}");
+                writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre}, {movie.Director}");
             }
             catch (Exception ex)
             {

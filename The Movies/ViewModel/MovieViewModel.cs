@@ -23,7 +23,7 @@ namespace The_Movies.ViewModel
         public MovieViewModel()
         {
             _repository = new FileMovieRepository("movies.txt");
-            _currentMovie = new Movie("", 0, "");
+            _currentMovie = new Movie("", 0, "", "");
             CreateMovieCommand = new RelayCommand.RelayCommand(CreateMovie, CanCreateMovie);
         }
 
@@ -33,7 +33,8 @@ namespace The_Movies.ViewModel
         {
             return !string.IsNullOrWhiteSpace(Title) && 
                    !string.IsNullOrWhiteSpace(Genre) && 
-                   Duration > 0;
+                   Duration > 0 &&
+                   !string.IsNullOrWhiteSpace(Director);
         }
 
         private void CreateMovie(object parameter)
@@ -41,12 +42,12 @@ namespace The_Movies.ViewModel
             try
             {
                 // Opretter en ny film med de nuværende værdier
-                Movie newMovie = new Movie(Title, Duration, Genre);
+                Movie newMovie = new Movie(Title, Duration, Genre, Director);
                 
                 // Gemmer film til repository
                 _repository.AddMovie(newMovie);
                 
-                MessageBox.Show($"Movie created successfully: {Title} - {Genre} ({Duration} minutes)");
+                MessageBox.Show($"Movie created successfully: {Title} - {Genre} ({Duration} minutes) - {Director}");
                 
                 // Nulstiller formularen så vi kan oprette en ny film
                 ClearForm();
@@ -63,11 +64,13 @@ namespace The_Movies.ViewModel
             _currentMovie.Title = "";
             _currentMovie.Duration = 0;
             _currentMovie.Genre = "";
-            
+            _currentMovie.Director = "";
+
             // Tell the UI to update
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(Duration));
             OnPropertyChanged(nameof(Genre));
+            OnPropertyChanged(nameof(Director));
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -116,6 +119,20 @@ namespace The_Movies.ViewModel
                     return;
                 }
                 _currentMovie.Genre = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Director
+        {
+            get { return _currentMovie.Director; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    MessageBox.Show("Director cannot be empty.");
+                    return;
+                }
+                _currentMovie.Director = value;
                 OnPropertyChanged();
             }
         }
