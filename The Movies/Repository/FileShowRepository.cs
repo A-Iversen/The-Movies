@@ -49,7 +49,15 @@ namespace The_Movies.Repository
                             {
                                 if (double.TryParse(parts[1], out double duration))
                                 {
-                                    Show show = new Show(new Movie(parts[0], duration, parts[2], parts[3]), DateTime.Parse(parts[4]), TimeSpan.FromMinutes(duration), DateTime.Parse(parts[5]), new Cinema(parts[6]), new Hall(parts[7]));
+                                    
+                                    Show show = new Show(
+                                        new Movie(parts[0], duration, parts[2], parts[3]),
+                                        DateTime.Parse(parts[4]),
+                                        TimeSpan.FromMinutes(duration),
+                                        DateTime.Parse(parts[5]),
+                                        (Cinema)Enum.Parse(typeof(Cinema), parts[6]),
+                                        (Hall)Enum.Parse(typeof(Hall), parts[7])
+                                    );
 
                                     _showList.Add(show);
                                 }
@@ -78,7 +86,7 @@ namespace The_Movies.Repository
                 List<string> lines = new List<string>();
                 foreach (var show in _showList)
                 {
-                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema.Name},{show.Hall.Name}";
+                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema},{show.Hall}";
                     lines.Add(line);
                 }
                 System.IO.File.WriteAllLines(_filePath, lines);

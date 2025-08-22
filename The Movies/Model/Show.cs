@@ -62,7 +62,7 @@ namespace The_Movies.Model
         // Formatting
         public override string ToString()
         {
-            return $"{_movie.Title} - {_showTime.ToShortDateString()} {_showTime.ToShortTimeString()} at {_cinema.Name}, Hall: {_hall.Name}";
+            return $"{_movie.Title} - {_showTime.ToShortDateString()} {_showTime.ToShortTimeString()} at {_cinema}, Hall: {_hall}";
         }
 
         // Methods
