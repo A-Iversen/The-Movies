@@ -24,5 +24,10 @@ namespace The_Movies
             DataContext = mvm;
             mvm.LoadMoviesCommand.Execute(null);
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

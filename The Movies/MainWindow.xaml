@@ -7,80 +7,158 @@
         mc:Ignorable="d"
 
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <TabControl>
+        <TabItem Header="Film Liste">
+            <Grid>
 
-        <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                        Command="{Binding CreateMovieCommand}"
+                        ToolTip="Fill in all fields to create a movie">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!-- Logo -->
+                <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
+                <!-- Titel -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,128,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="207,144,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <!-- Varighed -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,178,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="207,194,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <!-- Filmgenre -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,222,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="207,238,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <!-- Instruktør -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
+                         Margin="430,125,40,125">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                    Command="{Binding CreateMovieCommand}"
+                    ToolTip="Fill in all fields to create a movie">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
+                    Command="{Binding RemoveMovieCommand}"
+                    ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Film Liste">
+            <Grid>
+
+                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
                 Command="{Binding CreateMovieCommand}"
                 ToolTip="Fill in all fields to create a movie">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Style.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="LightGray"/>
-                            <Setter Property="Foreground" Value="Gray"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <!-- Logo -->
-        <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
-        <!-- Titel -->
-        <TextBlock HorizontalAlignment="Left" Margin="207,128,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="207,144,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <!-- Varighed -->
-        <TextBlock HorizontalAlignment="Left" Margin="207,178,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="207,194,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <!-- Filmgenre -->
-        <TextBlock HorizontalAlignment="Left" Margin="207,222,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="207,238,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <!-- Instruktør -->
-        <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <!-- Logo -->
+                <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
+                <!-- Film -->
+                <TextBlock HorizontalAlignment="Left" Margin="45,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Film"/><LineBreak/><Run/></TextBlock>
+                <TextBox HorizontalAlignment="Left" Margin="45,136,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+                <!-- Biograf -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Biograf"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
+                <TextBox HorizontalAlignment="Left" Margin="207,136,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <!-- Filmgenre -->
+                <TextBlock HorizontalAlignment="Left" Margin="45,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Sal"/><LineBreak/><Run/></TextBlock>
+                <TextBox HorizontalAlignment="Left" Margin="45,0,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120"/>
+                <!-- Instruktør -->
+                <TextBlock HorizontalAlignment="Left" Margin="207,176,0,0" TextWrapping="Wrap" Text="Varighed" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Margin="207,0,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120"/>
+                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
                  Margin="430,125,40,125">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
-                        <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
-                        <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
-                        <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
+                                <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
             Command="{Binding CreateMovieCommand}"
             ToolTip="Fill in all fields to create a movie">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Style.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="LightGray"/>
-                            <Setter Property="Foreground" Value="Gray"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
             Command="{Binding RemoveMovieCommand}"
             ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463">
-            <Button.Style>
-                <Style TargetType="{x:Type Button}">
-                    <Style.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="LightGray"/>
-                            <Setter Property="Foreground" Value="Gray"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-
-
-
-
-    </Grid>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="LightGray"/>
+                                    <Setter Property="Foreground" Value="Gray"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <TextBlock HorizontalAlignment="Left" Margin="45,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Dato"/><LineBreak/><Run/></TextBlock>
+                <TextBox HorizontalAlignment="Left" Margin="45,251,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="207,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Starttidspunkt"/><LineBreak/><Run/></TextBlock>
+                <TextBox HorizontalAlignment="Left" Margin="207,251,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

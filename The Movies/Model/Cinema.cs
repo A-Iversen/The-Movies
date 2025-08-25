@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace The_Movies.Model
-{ public enum Cinema
-    
+{
+    public class Cinema
     {
-                Biffen,
-                Popcorn,
-                Den_Tredje
-    }
+        public string Name { get; set; } = string.Empty;
+        public List<string> Halls { get; set; } = new();
+        public override string ToString() => Name;
 
+    }
+    
 }
