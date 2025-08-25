@@ -15,6 +15,7 @@ namespace The_Movies.RelayCommand
         readonly Predicate<object> _canExecute;
         #endregion // Fields 
         #region Constructors 
+
         public RelayCommand(Action<object> execute) : this(execute, null) { }
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {

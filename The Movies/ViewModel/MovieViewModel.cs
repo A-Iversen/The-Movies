@@ -26,11 +26,19 @@ namespace The_Movies.ViewModel
         {
             _repository = new FileMovieRepository("movies.txt");
             _currentMovie = new Movie("", 0, "", "");
+            LoadMoviesCommand = new RelayCommand.RelayCommand(LoadMovies);
             CreateMovieCommand = new RelayCommand.RelayCommand(CreateMovie, CanCreateMovie);
         }
 
+        public ICommand LoadMoviesCommand { get; private set; }
         public ICommand CreateMovieCommand { get; private set; }
-
+        
+        private void LoadMovies(object obj)
+        {
+            _repository.LoadMoviesFromFile();
+            MovieList = _repository.MovieList;
+            OnPropertyChanged(nameof(MovieList));
+        }
         private bool CanCreateMovie(object parameter)
         {
             return !string.IsNullOrWhiteSpace(Title) && 
@@ -47,8 +55,8 @@ namespace The_Movies.ViewModel
                 Movie newMovie = new Movie(Title, Duration, Genre, Director);
                 
                 // Gemmer film til repository
+                _repository.MovieList.Add(newMovie);
                 _repository.AddMovie(newMovie);
-                
                 MessageBox.Show($"Movie created successfully: {Title} - {Genre} ({Duration} minutes) - {Director}");
                 
                 // Nulstiller formularen så vi kan oprette en ny film

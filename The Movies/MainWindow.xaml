@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:The_Movies" xmlns:viewmodel="clr-namespace:The_Movies.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MovieViewModel}"
         mc:Ignorable="d"
+
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+
         <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
                 Command="{Binding CreateMovieCommand}"
                 ToolTip="Fill in all fields to create a movie">
@@ -35,7 +37,22 @@
         <!-- Instruktør -->
         <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <ListBox d:ItemsSource="{Binding MovieList}" Margin="430,125,40,125" ItemsSource="{Binding MovieList}"/>
+        <ListBox d:ItemsSource="{Binding MovieList}"
+                 Margin="430,125,40,125"
+                 ItemsSource="{Binding MovieList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
+                        <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
+                        <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
+                        <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
 
 
     </Grid>

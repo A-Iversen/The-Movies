@@ -34,25 +34,34 @@ namespace The_Movies.Repository
             LoadMoviesFromFile();
         }
 
-        private void LoadMoviesFromFile()
+        public void LoadMoviesFromFile()
         {
             try
             {
                 if (System.IO.File.Exists(_filePath))
                 {
+                    // Ensure we don't duplicate entries when reloading
+                    movieList.Clear();
                     string[] lines = System.IO.File.ReadAllLines(_filePath);
                     foreach (string line in lines)
                     {
-                        if (!string.IsNullOrWhiteSpace(line))
+                        if (string.IsNullOrWhiteSpace(line))
                         {
-                            string[] parts = line.Split(',');
-                            if (parts.Length == 3)
+                            continue;
+                        }
+
+                        string[] parts = line.Split(',');
+                        if (parts.Length >= 4)
+                        {
+                            string title = parts[0].Trim();
+                            string durationText = parts[1].Trim();
+                            string genre = parts[2].Trim();
+                            string director = parts[3].Trim();
+
+                            if (double.TryParse(durationText, out double duration))
                             {
-                                if (double.TryParse(parts[1], out double duration))
-                                {
-                                    Movie movie = new Movie(parts[0], duration, parts[2], parts[3]);
-                                    movieList.Add(movie);
-                                }
+                                Movie movie = new Movie(title, duration, genre, director);
+                                movieList.Add(movie);
                             }
                         }
                     }
@@ -73,7 +82,7 @@ namespace The_Movies.Repository
             try
             {
                 using var writer = new System.IO.StreamWriter(_filePath, true);
-                writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre}, {movie.Director}");
+                writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre},{movie.Director}");
             }
             catch (Exception ex)
             {

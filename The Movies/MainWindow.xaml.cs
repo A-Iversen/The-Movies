@@ -22,6 +22,7 @@ namespace The_Movies
         {
             InitializeComponent();
             DataContext = mvm;
+            mvm.LoadMoviesCommand.Execute(null);
         }
     }
 }
