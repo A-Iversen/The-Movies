@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,14 +11,14 @@ namespace The_Movies.Repository
     public class FileShowRepository
     {
         private string _filePath;
-        private List<Show> _showList;
+        private ObservableCollection<Show> _showList;
 
         public string FilePath
         {
             get { return _filePath; }
             set { _filePath = value; }
         }
-        public List<Show> ShowList
+        public ObservableCollection<Show> ShowList
         {
             get { return _showList; }
             set { _showList = value; }
@@ -27,7 +28,7 @@ namespace The_Movies.Repository
         public FileShowRepository(string filePath)
         {
             _filePath = filePath;
-            _showList = new List<Show>();
+            _showList = new ObservableCollection<Show>();
             
             // Try to load existing movies from file
             LoadShowsFromFile();
