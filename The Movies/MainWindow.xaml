@@ -3,12 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:The_Movies"
+        xmlns:local="clr-namespace:The_Movies" xmlns:viewmodel="clr-namespace:The_Movies.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:MovieViewModel}"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
-                Command="{Binding CreateMovieCommand}" 
+                Command="{Binding CreateMovieCommand}"
                 ToolTip="Fill in all fields to create a movie">
             <Button.Style>
                 <Style TargetType="Button">
@@ -35,6 +35,7 @@
         <!-- Instruktør -->
         <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+        <ListBox d:ItemsSource="{Binding MovieList}" Margin="430,125,40,125" ItemsSource="{Binding MovieList}"/>
 
 
     </Grid>

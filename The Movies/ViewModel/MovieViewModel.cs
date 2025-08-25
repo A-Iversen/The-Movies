@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,6 +18,7 @@ namespace The_Movies.ViewModel
     {
         private Movie _currentMovie;
         private FileMovieRepository _repository;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -133,6 +135,16 @@ namespace The_Movies.ViewModel
                     return;
                 }
                 _currentMovie.Director = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<Movie> MovieList
+        {
+            get { return _repository.MovieList; }
+            set
+            {
+                _repository.MovieList = value;
                 OnPropertyChanged();
             }
         }

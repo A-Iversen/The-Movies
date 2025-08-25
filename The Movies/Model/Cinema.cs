@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace The_Movies.Model
 { public enum Cinema
+    
     {
                 Biffen,
                 Popcorn,
