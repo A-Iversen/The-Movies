@@ -37,9 +37,8 @@
         <!-- Instruktør -->
         <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-        <ListBox d:ItemsSource="{Binding MovieList}"
-                 Margin="430,125,40,125"
-                 ItemsSource="{Binding MovieList}">
+        <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
+                 Margin="430,125,40,125">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -51,6 +50,34 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+            Command="{Binding CreateMovieCommand}"
+            ToolTip="Fill in all fields to create a movie">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="LightGray"/>
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
+            Command="{Binding RemoveMovieCommand}"
+            ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="LightGray"/>
+                            <Setter Property="Foreground" Value="Gray"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
 
 
 

@@ -74,6 +74,22 @@ namespace The_Movies.Repository
             }
         }
 
+        public void SaveMoviesToFile()
+        {
+            try
+            {
+                using var writer = new System.IO.StreamWriter(_filePath, false);
+                foreach (var movie in movieList)
+                {
+                    writer.WriteLine($"{movie.Title},{movie.Duration},{movie.Genre},{movie.Director}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to save movies to file: {ex.Message}");
+            }
+        }
+
         // Methods
         public void AddMovie(Movie movie)
         {

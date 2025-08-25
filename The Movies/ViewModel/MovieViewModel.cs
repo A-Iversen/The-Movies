@@ -18,21 +18,33 @@ namespace The_Movies.ViewModel
     {
         private Movie _currentMovie;
         private FileMovieRepository _repository;
-
-
+        private Movie _selectedMovie;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Constructor
         public MovieViewModel()
         {
             _repository = new FileMovieRepository("movies.txt");
             _currentMovie = new Movie("", 0, "", "");
             LoadMoviesCommand = new RelayCommand.RelayCommand(LoadMovies);
             CreateMovieCommand = new RelayCommand.RelayCommand(CreateMovie, CanCreateMovie);
+            RemoveMovieCommand = new RelayCommand.RelayCommand(RemoveMovie);
         }
-
+        
         public ICommand LoadMoviesCommand { get; private set; }
         public ICommand CreateMovieCommand { get; private set; }
-        
+        public ICommand RemoveMovieCommand { get; }
+
+        public Movie SelectedMovie
+        {
+            get => _selectedMovie;
+            set
+            {
+                _selectedMovie = value;
+                OnPropertyChanged(nameof(SelectedMovie));
+            }
+        }
+
         private void LoadMovies(object obj)
         {
             _repository.LoadMoviesFromFile();
@@ -45,6 +57,16 @@ namespace The_Movies.ViewModel
                    !string.IsNullOrWhiteSpace(Genre) && 
                    Duration > 0 &&
                    !string.IsNullOrWhiteSpace(Director);
+        }
+
+        private void RemoveMovie(object parameter)
+        {
+            if (SelectedMovie != null)
+            {
+                MovieList.Remove(SelectedMovie);
+                SelectedMovie = null;
+                _repository.SaveMoviesToFile();
+            }
         }
 
         private void CreateMovie(object parameter)

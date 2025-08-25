@@ -43,4 +43,73 @@ namespace The_Movies.RelayCommand
         }
         #endregion // ICommand Members 
     }
+
+    public class RelayCommand<T> : ICommand
+    {
+        #region Fields
+        private readonly Action<T> _execute;
+        private readonly Predicate<T> _canExecute;
+        #endregion
+
+        #region Constructors
+        public RelayCommand(Action<T> execute) : this(execute, null) { }
+
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+            _execute = execute;
+            _canExecute = canExecute;
+        }
+        #endregion
+
+        #region ICommand Members
+        [DebuggerStepThrough]
+        public bool CanExecute(object parameter)
+        {
+            if (_canExecute == null)
+            {
+                return true;
+            }
+
+            T typedParameter = default(T);
+            if (parameter is T)
+            {
+                typedParameter = (T)parameter;
+            }
+            else if (parameter == null && default(T) == null)
+            {
+                typedParameter = default(T);
+            }
+
+            return _canExecute(typedParameter);
+        }
+
+        public event EventHandler CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public void Execute(object parameter)
+        {
+            T typedParameter = default(T);
+            if (parameter is T)
+            {
+                typedParameter = (T)parameter;
+            }
+            else if (parameter == null && default(T) == null)
+            {
+                typedParameter = default(T);
+            }
+
+            _execute(typedParameter);
+        }
+
+        public void RaiseCanExecuteChanged()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
+        #endregion
+    }
 }
