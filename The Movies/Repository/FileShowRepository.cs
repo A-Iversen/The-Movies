@@ -34,34 +34,40 @@ namespace The_Movies.Repository
             LoadShowsFromFile();
         }
 
-        private void LoadShowsFromFile()
+        public void LoadShowsFromFile()
         {
             try
             {
                 if (System.IO.File.Exists(_filePath))
                 {
+                    _showList.Clear();
                     string[] lines = System.IO.File.ReadAllLines(_filePath);
                     foreach (string line in lines)
                     {
-                        if (!string.IsNullOrWhiteSpace(line))
-                        {
-                            string[] parts = line.Split(',');
-                            if (parts.Length == 3)
-                            {
-                                if (double.TryParse(parts[1], out double duration))
-                                {
-                                    
-                                    Show show = new Show(
-                                        new Movie(parts[0], duration, parts[2], parts[3]),
-                                        DateTime.Parse(parts[4]),
-                                        TimeSpan.FromMinutes(duration),
-                                        DateTime.Parse(parts[5]),
-                                        (Cinema)Enum.Parse(typeof(Cinema), parts[6]),
-                                        (Hall)Enum.Parse(typeof(Hall), parts[7])
-                                    );
+                        if (string.IsNullOrWhiteSpace(line))
+                            continue;
 
-                                    _showList.Add(show);
-                                }
+                        string[] parts = line.Split(',');
+                        if (parts.Length >= 8)
+                        {
+                            string title = parts[0].Trim();
+                            string durationText = parts[1].Trim();
+                            string genre = parts[2].Trim();
+                            string director = parts[3].Trim();
+                            string showTimeText = parts[4].Trim();
+                            string premiereDateText = parts[5].Trim();
+                            string cinemaName = parts[6].Trim();
+                            string hallText = parts[7].Trim();
+
+                            if (double.TryParse(durationText, out double minutes) &&
+                                DateTime.TryParse(showTimeText, out DateTime showTime) &&
+                                DateTime.TryParse(premiereDateText, out DateTime premiereDate) &&
+                                Enum.TryParse(hallText, out Hall hall))
+                            {
+                                var movie = new Movie(title, minutes, genre, director);
+                                var cinema = new Cinema { Name = cinemaName };
+                                var show = new Show(movie, showTime, TimeSpan.FromMinutes(minutes), premiereDate, cinema, hall);
+                                _showList.Add(show);
                             }
                         }
                     }
@@ -80,6 +86,16 @@ namespace The_Movies.Repository
             _showList.Add(show);
             SaveShowsToFile();
         }
+
+        public void RemoveShow(Show show)
+        {
+            if (show == null)
+            {
+                return;
+            }
+            _showList.Remove(show);
+            SaveShowsToFile();
+        }
         private void SaveShowsToFile()
         {
             try
@@ -87,7 +103,7 @@ namespace The_Movies.Repository
                 List<string> lines = new List<string>();
                 foreach (var show in _showList)
                 {
-                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema},{show.Hall}";
+                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema?.Name},{show.Hall}";
                     lines.Add(line);
                 }
                 System.IO.File.WriteAllLines(_filePath, lines);

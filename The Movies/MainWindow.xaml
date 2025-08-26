@@ -7,13 +7,21 @@
         mc:Ignorable="d"
 
         Title="MainWindow" Height="450" Width="800">
-    <TabControl>
-        <TabItem Header="Film Liste">
+    <Window.Resources>
+    </Window.Resources>
+    <TabControl x:Name="RootTabs">
+        <TabItem Header="Film Liste" x:Name="MoviesTab">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="14*"/>
+                    <ColumnDefinition Width="17*"/>
+                    <ColumnDefinition Width="64*"/>
+                    <ColumnDefinition Width="699*"/>
+                </Grid.ColumnDefinitions>
 
-                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="272,347,0,0" VerticalAlignment="Top" 
                         Command="{Binding CreateMovieCommand}"
-                        ToolTip="Fill in all fields to create a movie">
+                        ToolTip="Fill in all fields to create a movie" Grid.Column="3">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -26,21 +34,21 @@
                     </Button.Style>
                 </Button>
                 <!-- Logo -->
-                <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
+                <Image HorizontalAlignment="Left" Height="100" Margin="252,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png" Grid.Column="3"/>
                 <!-- Titel -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,128,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="207,144,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="112,128,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Grid.Column="3"/>
+                <TextBox HorizontalAlignment="Left" Margin="112,144,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="3"/>
                 <!-- Varighed -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,178,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="207,194,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="112,178,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top" Grid.Column="3"/>
+                <TextBox HorizontalAlignment="Left" Margin="112,0,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120" Grid.Column="3"/>
                 <!-- Filmgenre -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,222,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="207,238,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="112,222,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top" Grid.Column="3"/>
+                <TextBox HorizontalAlignment="Left" Margin="112,238,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="3"/>
                 <!-- Instruktør -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="207,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <TextBlock HorizontalAlignment="Left" Margin="112,266,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top" Grid.Column="3"/>
+                <TextBox HorizontalAlignment="Left" Margin="112,282,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="3"/>
                 <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
-                         Margin="430,125,40,125">
+                         Margin="335,125,40,125" Grid.Column="3">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -52,9 +60,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
+                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="272,347,0,0" VerticalAlignment="Top" 
                     Command="{Binding CreateMovieCommand}"
-                    ToolTip="Fill in all fields to create a movie">
+                    ToolTip="Fill in all fields to create a movie" Grid.Column="3">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -66,9 +74,9 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
+                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="365,347,0,0" VerticalAlignment="Top"
                     Command="{Binding RemoveMovieCommand}"
-                    ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463">
+                    ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463" Grid.Column="3">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -82,82 +90,107 @@
                 </Button>
             </Grid>
         </TabItem>
-        <TabItem Header="Film Liste">
+        <TabItem Header="Forestilling" x:Name="ShowsTab">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
 
-                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
-                Command="{Binding CreateMovieCommand}"
-                ToolTip="Fill in all fields to create a movie">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <!-- Logo -->
-                <Image HorizontalAlignment="Center" Height="100" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png"/>
-                <!-- Film -->
-                <TextBlock HorizontalAlignment="Left" Margin="45,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Film"/><LineBreak/><Run/></TextBlock>
-                <TextBox HorizontalAlignment="Left" Margin="45,136,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-                <!-- Biograf -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,115,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Biograf"/><LineBreak/><Run/><LineBreak/><Run/></TextBlock>
-                <TextBox HorizontalAlignment="Left" Margin="207,136,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-                <!-- Filmgenre -->
-                <TextBlock HorizontalAlignment="Left" Margin="45,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Sal"/><LineBreak/><Run/></TextBlock>
-                <TextBox HorizontalAlignment="Left" Margin="45,0,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120"/>
-                <!-- Instruktør -->
-                <TextBlock HorizontalAlignment="Left" Margin="207,176,0,0" TextWrapping="Wrap" Text="Varighed" VerticalAlignment="Top"/>
-                <TextBox HorizontalAlignment="Left" Margin="207,0,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="120"/>
-                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
-                 Margin="430,125,40,125">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Content="Opret Film" HorizontalAlignment="Center" Margin="0,347,0,0" VerticalAlignment="Top" 
-            Command="{Binding CreateMovieCommand}"
-            ToolTip="Fill in all fields to create a movie">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="460,347,0,0" VerticalAlignment="Top"
-            Command="{Binding RemoveMovieCommand}"
-            ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <TextBlock HorizontalAlignment="Left" Margin="45,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Dato"/><LineBreak/><Run/></TextBlock>
-                <TextBox HorizontalAlignment="Left" Margin="45,251,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
-                <TextBlock HorizontalAlignment="Left" Margin="207,233,0,0" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Starttidspunkt"/><LineBreak/><Run/></TextBlock>
-                <TextBox HorizontalAlignment="Left" Margin="207,251,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                <!-- Venstre formular -->
+                <Grid Grid.Column="0" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Film -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Film" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Width="250"
+                              ItemsSource="{Binding MovieList}"
+                              SelectedItem="{Binding SelectedMovieForShow}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!-- Dato -->
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Dato" VerticalAlignment="Center"/>
+                    <DatePicker Grid.Row="1" Grid.Column="1" Width="250"
+                                SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <!-- Tidspunkt -->
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Tidspunkt" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Width="250"
+                              ItemsSource="{Binding AvailableTimes}"
+                              SelectedItem="{Binding SelectedTime}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StringFormat={}{0:hh\\:mm}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!-- Varighed (minutter) -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Varighed (minutter)" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Width="250" IsReadOnly="True"
+                             Text="{Binding DurationMinutesText}"/>
+
+                    <!-- Biograf -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Biograf" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Width="250"
+                              ItemsSource="{Binding Cinemas}"
+                              SelectedItem="{Binding SelectedCinema}"
+                              DisplayMemberPath="Name"/>
+
+                    <!-- Sal -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Sal" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Width="250"
+                              ItemsSource="{Binding HallOptions}"
+                              SelectedValuePath="Key"
+                              DisplayMemberPath="Value"
+                              SelectedValue="{Binding SelectedHall}"/>
+
+                    <!-- Opret og Fjern knapper -->
+                    <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Margin="13,16,13,0">
+                        <Button Width="117" Content="Opret forestilling" Command="{Binding CreateShowCommand}"/>
+                        <Button Width="121" Margin="12,0,0,0" Content="Fjern forestilling"
+                                Command="{Binding RemoveShowCommand}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Højre liste (filtreret efter valgt biograf) -->
+                <GroupBox Grid.Column="1" Margin="20" Header="Forestillinger">
+                    <ListBox ItemsSource="{Binding ShowsView}" SelectedItem="{Binding SelectedShow}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Movie.Title}" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Start: "/>
+                                        <TextBlock Text="{Binding ShowTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Slut: "/>
+                                        <TextBlock Text="{Binding EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding HallDisplay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
             </Grid>
         </TabItem>
     </TabControl>

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using The_Movies.Model;
 using The_Movies.Repository;
+using The_Movies.RelayCommand;
+using System.Windows.Data;
 
 namespace The_Movies.ViewModel
 {
@@ -14,17 +16,53 @@ namespace The_Movies.ViewModel
     {
         private Show _selectedShow;
         private FileShowRepository _repository; 
+        private ObservableCollection<Movie> _movieList;
         public ObservableCollection<Cinema> Cinemas { get; } = new();
+        public ObservableCollection<Hall> Halls { get; } = new();
+        public ObservableCollection<KeyValuePair<Hall, string>> HallOptions { get; } = new();
+        public ObservableCollection<TimeSpan> AvailableTimes { get; } = new();
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ShowViewModel(Cinema cinema)
+        public ShowViewModel(ObservableCollection<Movie> movieList)
         {
-            _selectedShow = new Show(null, DateTime.Now, TimeSpan.Zero, DateTime.Now, null);
+            _selectedShow = null;
             _repository = new FileShowRepository("shows.txt");
-            Cinemas.Add(new Cinema { Name = "Downtown Cinema", Halls = { "Hall 1", "Hall 2", "Hall 3" } });
-            Cinemas.Add(new Cinema { Name = "Riverside Multiplex", Halls = { "A", "B", "C", "D" } });
-            Cinemas.Add(new Cinema { Name = "Grand Palace", Halls = { "Main", "Blue", "Red" } });
+            _movieList = movieList;
+            // Seed sample cinemas
+            Cinemas.Add(new Cinema { Name = "Downtown Cinema", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
+            Cinemas.Add(new Cinema { Name = "Riverside Multiplex", Halls = { "Sal_1", "Sal_2" } });
+            Cinemas.Add(new Cinema { Name = "Grand Palace", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
+            // Halls from enum
+            foreach (var hall in Enum.GetValues(typeof(Hall)).Cast<Hall>())
+            {
+                Halls.Add(hall);
+                HallOptions.Add(new KeyValuePair<Hall, string>(hall, hall.ToString().Replace("_", " ")));
+            }
+
+            // 15-minute intervals times
+            for (int h = 0; h < 24; h++)
+            {
+                for (int m = 0; m < 60; m += 15)
+                {
+                    AvailableTimes.Add(new TimeSpan(h, m, 0));
+                }
+            }
+
             CreateShowCommand = new RelayCommand.RelayCommand(CreateShow);
+            RemoveShowCommand = new RelayCommand.RelayCommand(RemoveSelectedShow, CanRemoveSelectedShow);
+
+            // Create a filtered view for shows
+            ShowsView = CollectionViewSource.GetDefaultView(ShowList);
+            if (ShowsView != null)
+            {
+                ShowsView.Filter = FilterShowByCinema;
+            }
+        }
+
+        public ObservableCollection<Movie> MovieList
+        {
+            get => _movieList;
+            set { _movieList = value; OnPropertyChanged(nameof(MovieList)); }
         }
 
         public ObservableCollection<Show> ShowList
@@ -34,20 +72,128 @@ namespace The_Movies.ViewModel
             {
                 _repository.ShowList = value;
                 OnPropertyChanged(nameof(ShowList));
+                ShowsView = CollectionViewSource.GetDefaultView(_repository.ShowList);
+                if (ShowsView != null)
+                {
+                    ShowsView.Filter = FilterShowByCinema;
+                }
             }
         }
 
+        public ICollectionView ShowsView { get; private set; }
+
         public RelayCommand.RelayCommand CreateShowCommand { get; }
+        public RelayCommand.RelayCommand RemoveShowCommand { get; }
         private void CreateShow(object parameter)
         {
-            if (_selectedShow != null && _selectedShow.IsShowTimeValid())
+            try
             {
-                _repository.AddShow(_selectedShow);
+                if (SelectedMovieForShow == null)
+                {
+                    System.Windows.MessageBox.Show("Please select a movie.");
+                    return;
+                }
+
+                if (SelectedDate == null)
+                {
+                    System.Windows.MessageBox.Show("Vælg en dato.");
+                    return;
+                }
+
+                DateTime showTime = SelectedDate.Value.Date + SelectedTime;
+
+                // Calculate minutes from selected movie duration + 30 minutes cleaning
+                double minutes = (SelectedMovieForShow?.Duration ?? 0) + 30;
+                if (minutes <= 0)
+                {
+                    System.Windows.MessageBox.Show("Ugyldig varighed.");
+                    return;
+                }
+
+                if (SelectedCinema == null)
+                {
+                    System.Windows.MessageBox.Show("Vælg en biograf.");
+                    return;
+                }
+
+                // Ensure a valid hall is selected (allow Sal_1 too)
+                if (!Halls.Contains(SelectedHall))
+                {
+                    System.Windows.MessageBox.Show("Vælg en gyldig sal (f.eks. Sal_1, Sal_2, Sal_3).");
+                    return;
+                }
+
+                var cinema = SelectedCinema;
+
+                // Validate no overlap in same cinema and hall
+                TimeSpan duration = TimeSpan.FromMinutes(minutes);
+                if (!IsHallAvailable(showTime, duration, cinema, SelectedHall))
+                {
+                    System.Windows.MessageBox.Show("Denne sal er optaget på det tidspunkt. Vælg et andet tidspunkt eller en anden sal.");
+                    return;
+                }
+
+                var show = new Show(SelectedMovieForShow, showTime, duration, showTime.Date, cinema, SelectedHall);
+
+                _repository.AddShow(show);
                 OnPropertyChanged(nameof(ShowList));
+                ShowsView?.Refresh();
+                System.Windows.MessageBox.Show("Show created successfully.");
             }
-            else
+            catch (Exception ex)
             {
-                // Handle invalid show time (e.g., show a message to the user)
+                System.Windows.MessageBox.Show($"Error creating show: {ex.Message}");
+            }
+        }
+
+        private bool IsHallAvailable(DateTime newStart, TimeSpan newDuration, Cinema cinema, Hall hall)
+        {
+            DateTime newEnd = newStart + newDuration;
+            foreach (var existing in ShowList)
+            {
+                if (!string.Equals(existing.Cinema?.Name, cinema?.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                if (!Equals(existing.Hall, hall))
+                {
+                    continue;
+                }
+
+                DateTime existStart = existing.ShowTime;
+                DateTime existEnd = existStart + existing.Duration;
+
+                // Overlap if windows intersect
+                bool overlap = newStart < existEnd && existStart < newEnd;
+                if (overlap)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private bool CanRemoveSelectedShow(object parameter)
+        {
+            return SelectedShow != null;
+        }
+
+        private void RemoveSelectedShow(object parameter)
+        {
+            try
+            {
+                if (SelectedShow == null)
+                {
+                    return;
+                }
+
+                _repository.RemoveShow(SelectedShow);
+                OnPropertyChanged(nameof(ShowList));
+                ShowsView?.Refresh();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show($"Error removing show: {ex.Message}");
             }
         }
 
@@ -64,6 +210,83 @@ namespace The_Movies.ViewModel
                 _selectedShow = value;
                 OnPropertyChanged(nameof(SelectedShow));
             }
+        }
+
+        private bool FilterShowByCinema(object obj)
+        {
+            if (SelectedCinema == null)
+            {
+                return true;
+            }
+            if (obj is Show show)
+            {
+                bool sameCinema = string.Equals(show.Cinema?.Name, SelectedCinema.Name, StringComparison.OrdinalIgnoreCase);
+                if (!sameCinema)
+                {
+                    return false;
+                }
+                // If a hall is selected, also filter by that hall
+                if (!EqualityComparer<Hall>.Default.Equals(SelectedHall, default(Hall)))
+                {
+                    return EqualityComparer<Hall>.Default.Equals(show.Hall, SelectedHall);
+                }
+                return true;
+            }
+            return true;
+        }
+
+        // Show creation
+        private Movie _selectedMovieForShow;
+        public Movie SelectedMovieForShow
+        {
+            get { return _selectedMovieForShow; }
+            set {
+                _selectedMovieForShow = value; 
+                OnPropertyChanged(nameof(SelectedMovieForShow)); 
+                UpdateDurationFromSelectedMovie();
+            }
+        }
+
+        private DateTime? _selectedDate;
+        public DateTime? SelectedDate
+        {
+            get { return _selectedDate; }
+            set { _selectedDate = value; OnPropertyChanged(nameof(SelectedDate)); }
+        }
+
+        private TimeSpan _selectedTime;
+        public TimeSpan SelectedTime
+        {
+            get { return _selectedTime; }
+            set { _selectedTime = value; OnPropertyChanged(nameof(SelectedTime)); }
+        }
+
+        private string _durationMinutesText;
+        public string DurationMinutesText
+        {
+            get { return _durationMinutesText; }
+            set { _durationMinutesText = value; OnPropertyChanged(nameof(DurationMinutesText)); }
+        }
+
+        private void UpdateDurationFromSelectedMovie()
+        {
+            double minutes = (SelectedMovieForShow?.Duration ?? 0) + 30;
+            DurationMinutesText = minutes > 0 ? minutes.ToString() : string.Empty;
+        }
+
+
+        private Cinema _selectedCinema;
+        public Cinema SelectedCinema
+        {
+            get { return _selectedCinema; }
+            set { _selectedCinema = value; OnPropertyChanged(nameof(SelectedCinema)); ShowsView?.Refresh(); }
+        }
+
+        private Hall _selectedHall;
+        public Hall SelectedHall
+        {
+            get { return _selectedHall; }
+            set { _selectedHall = value; OnPropertyChanged(nameof(SelectedHall)); ShowsView?.Refresh(); }
         }
     }
 }

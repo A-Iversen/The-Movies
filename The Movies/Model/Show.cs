@@ -15,6 +15,7 @@ namespace The_Movies.Model
         private TimeSpan _duration;
         private DateTime _premiereDate;
         private Cinema _cinema;
+        private Hall _hall;
 
         public Movie Movie
         {
@@ -43,20 +44,38 @@ namespace The_Movies.Model
             set { _cinema = value; }
         }
 
+        public Hall Hall
+        {
+            get { return _hall; }
+            set { _hall = value; }
+        }
+
+        public DateTime EndTime
+        {
+            get { return _showTime + _duration; }
+        }
+
+        // Readable display for Hall
+        public string HallDisplay
+        {
+            get { return _hall.ToString().Replace("_", " "); }
+        }
+
         // Constructor
-        public Show(Movie movie, DateTime showTime, TimeSpan duration, DateTime premiereDate,Cinema name)
+        public Show(Movie movie, DateTime showTime, TimeSpan duration, DateTime premiereDate, Cinema cinema, Hall hall)
         {
             _movie = movie;
             _showTime = showTime;
             _duration = duration;
             _premiereDate = premiereDate;
-            _cinema = name;
+            _cinema = cinema;
+            _hall = hall;
         }
 
         // Formatting
         public override string ToString()
         {
-            return $"{_movie.Title} - {_showTime.ToShortDateString()} {_showTime.ToShortTimeString()} at {_cinema}, Hall: {Cinema.Halls}";
+            return $"{_movie.Title} - {_showTime.ToShortDateString()} {_showTime.ToShortTimeString()} at {_cinema?.Name}, Hall: {_hall}";
         }
 
         // Methods

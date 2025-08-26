@@ -18,6 +18,7 @@ namespace The_Movies.ViewModel
     {
         private Movie _currentMovie;
         private FileMovieRepository _repository;
+        private FileShowRepository _showRepository;
         private Movie _selectedMovie;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,6 +26,7 @@ namespace The_Movies.ViewModel
         public MovieViewModel()
         {
             _repository = new FileMovieRepository("movies.txt");
+            _showRepository = new FileShowRepository("shows.txt");
             _currentMovie = new Movie("", 0, "", "");
             LoadMoviesCommand = new RelayCommand.RelayCommand(LoadMovies);
             CreateMovieCommand = new RelayCommand.RelayCommand(CreateMovie, CanCreateMovie);
@@ -178,6 +180,7 @@ namespace The_Movies.ViewModel
                 OnPropertyChanged();
             }
         }
+
 
     }
 

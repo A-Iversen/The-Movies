@@ -18,11 +18,19 @@ namespace The_Movies
     public partial class MainWindow : Window
     {
         MovieViewModel mvm = new MovieViewModel();
+        ShowViewModel svm;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = mvm;
             mvm.LoadMoviesCommand.Execute(null);
+
+            // Bind Shows tab to its own ShowViewModel, using existing movies
+            svm = new ShowViewModel(mvm.MovieList);
+            if (ShowsTab != null)
+            {
+                ShowsTab.DataContext = svm;
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
