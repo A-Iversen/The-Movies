@@ -22,6 +22,76 @@ namespace The_Movies.ViewModel
         public ObservableCollection<KeyValuePair<Hall, string>> HallOptions { get; } = new();
         public ObservableCollection<TimeSpan> AvailableTimes { get; } = new();
         public event PropertyChangedEventHandler PropertyChanged;
+        private Cinema _selectedCinema;
+        private Hall _selectedHall;
+        private Movie _selectedMovieForShow;
+        private string _durationMinutesText;
+        private DateTime? _selectedDate;
+        private TimeSpan _selectedTime;
+
+        public ObservableCollection<Show> ShowList
+        {
+            get => _repository.ShowList;
+            set
+            {
+                _repository.ShowList = value;
+                OnPropertyChanged(nameof(ShowList));
+                ShowsView = CollectionViewSource.GetDefaultView(_repository.ShowList);
+                if (ShowsView != null)
+                {
+                    ShowsView.Filter = FilterShowByCinema;
+                }
+            }
+        }
+        public ObservableCollection<Movie> MovieList
+        {
+            get => _movieList;
+            set { _movieList = value; OnPropertyChanged(nameof(MovieList)); }
+        }
+        public Show SelectedShow
+        {
+            get => _selectedShow;
+            set
+            {
+                _selectedShow = value;
+                OnPropertyChanged(nameof(SelectedShow));
+            }
+        }
+        public Cinema SelectedCinema
+        {
+            get { return _selectedCinema; }
+            set { _selectedCinema = value; OnPropertyChanged(nameof(SelectedCinema)); ShowsView?.Refresh(); }
+        }
+        public Hall SelectedHall
+        {
+            get { return _selectedHall; }
+            set { _selectedHall = value; OnPropertyChanged(nameof(SelectedHall)); ShowsView?.Refresh(); }
+        }
+        public Movie SelectedMovieForShow
+        {
+            get { return _selectedMovieForShow; }
+            set
+            {
+                _selectedMovieForShow = value;
+                OnPropertyChanged(nameof(SelectedMovieForShow));
+                UpdateDurationFromSelectedMovie();
+            }
+        }
+        public DateTime? SelectedDate
+        {
+            get { return _selectedDate; }
+            set { _selectedDate = value; OnPropertyChanged(nameof(SelectedDate)); }
+        }
+        public TimeSpan SelectedTime
+        {
+            get { return _selectedTime; }
+            set { _selectedTime = value; OnPropertyChanged(nameof(SelectedTime)); }
+        }
+        public string DurationMinutesText
+        {
+            get { return _durationMinutesText; }
+            set { _durationMinutesText = value; OnPropertyChanged(nameof(DurationMinutesText)); }
+        }
 
         public ShowViewModel(ObservableCollection<Movie> movieList)
         {
@@ -59,26 +129,7 @@ namespace The_Movies.ViewModel
             }
         }
 
-        public ObservableCollection<Movie> MovieList
-        {
-            get => _movieList;
-            set { _movieList = value; OnPropertyChanged(nameof(MovieList)); }
-        }
-
-        public ObservableCollection<Show> ShowList
-        {
-            get => _repository.ShowList;
-            set
-            {
-                _repository.ShowList = value;
-                OnPropertyChanged(nameof(ShowList));
-                ShowsView = CollectionViewSource.GetDefaultView(_repository.ShowList);
-                if (ShowsView != null)
-                {
-                    ShowsView.Filter = FilterShowByCinema;
-                }
-            }
-        }
+       
 
         public ICollectionView ShowsView { get; private set; }
 
@@ -202,15 +253,7 @@ namespace The_Movies.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Show SelectedShow
-        {
-            get => _selectedShow;
-            set
-            {
-                _selectedShow = value;
-                OnPropertyChanged(nameof(SelectedShow));
-            }
-        }
+      
 
         private bool FilterShowByCinema(object obj)
         {
@@ -236,37 +279,7 @@ namespace The_Movies.ViewModel
         }
 
         // Show creation
-        private Movie _selectedMovieForShow;
-        public Movie SelectedMovieForShow
-        {
-            get { return _selectedMovieForShow; }
-            set {
-                _selectedMovieForShow = value; 
-                OnPropertyChanged(nameof(SelectedMovieForShow)); 
-                UpdateDurationFromSelectedMovie();
-            }
-        }
-
-        private DateTime? _selectedDate;
-        public DateTime? SelectedDate
-        {
-            get { return _selectedDate; }
-            set { _selectedDate = value; OnPropertyChanged(nameof(SelectedDate)); }
-        }
-
-        private TimeSpan _selectedTime;
-        public TimeSpan SelectedTime
-        {
-            get { return _selectedTime; }
-            set { _selectedTime = value; OnPropertyChanged(nameof(SelectedTime)); }
-        }
-
-        private string _durationMinutesText;
-        public string DurationMinutesText
-        {
-            get { return _durationMinutesText; }
-            set { _durationMinutesText = value; OnPropertyChanged(nameof(DurationMinutesText)); }
-        }
+       
 
         private void UpdateDurationFromSelectedMovie()
         {
@@ -275,18 +288,6 @@ namespace The_Movies.ViewModel
         }
 
 
-        private Cinema _selectedCinema;
-        public Cinema SelectedCinema
-        {
-            get { return _selectedCinema; }
-            set { _selectedCinema = value; OnPropertyChanged(nameof(SelectedCinema)); ShowsView?.Refresh(); }
-        }
-
-        private Hall _selectedHall;
-        public Hall SelectedHall
-        {
-            get { return _selectedHall; }
-            set { _selectedHall = value; OnPropertyChanged(nameof(SelectedHall)); ShowsView?.Refresh(); }
-        }
+       
     }
 }
