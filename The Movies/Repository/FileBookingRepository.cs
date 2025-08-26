@@ -10,6 +10,7 @@ namespace The_Movies.Repository
     {
         private string _filePath;
         private ObservableCollection<Booking> _bookingList;
+        public List<Cinema> Cinemas;
 
         public string FilePath
         {
@@ -24,12 +25,13 @@ namespace The_Movies.Repository
         }
 
         // Constructor
-        public FileBookingRepository(string filePath)
+        public FileBookingRepository(string filePath, List<Cinema> cinemas)
         {
             _filePath = filePath;
             _bookingList = new ObservableCollection<Booking>();
 
             LoadBookingsFromFile();
+            Cinemas = cinemas;
         }
 
         public void LoadBookingsFromFile()
@@ -68,15 +70,31 @@ namespace The_Movies.Repository
                                 int.TryParse(qtyText, out int qtyTickets) &&
                                 double.TryParse(durationText, out double minutes) &&
                                 DateTime.TryParse(showTimeText, out DateTime showTime) &&
-                                DateTime.TryParse(premiereDateText, out DateTime premiereDate) &&
-                                Enum.TryParse(hallText, out Hall hall))
+                                DateTime.TryParse(premiereDateText, out DateTime premiereDate))
                             {
-                                var movie = new Movie(title, minutes, genre, director);
-                                var cinema = new Cinema { Name = cinemaName };
-                                var show = new Show(movie, showTime, TimeSpan.FromMinutes(minutes), premiereDate, cinema, hall);
+                                // Find den rigtige biograf
+                                var cinema = Cinemas.FirstOrDefault(c => c.Name.Equals(cinemaName, StringComparison.OrdinalIgnoreCase));
+                                if (cinema != null)
+                                {
+                                    // Find den rigtige sal
+                                    var hall = cinema.Halls.FirstOrDefault(h => h.Name.Equals(hallText, StringComparison.OrdinalIgnoreCase));
+                                    if (hall != null)
+                                    {
+                                        var movie = new Movie(title, minutes, genre, director);
+                                        var show = new Show(movie, showTime, TimeSpan.FromMinutes(minutes), premiereDate, cinema, hall);
 
-                                var booking = new Booking(phone, email, qtyTickets, show);
-                                _bookingList.Add(booking);
+                                        var booking = new Booking(phone, email, qtyTickets, show);
+                                        _bookingList.Add(booking);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Sal '{hallText}' findes ikke i biografen '{cinemaName}'.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Biografen '{cinemaName}' blev ikke fundet.");
+                                }
                             }
                         }
                     }
@@ -84,9 +102,10 @@ namespace The_Movies.Repository
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading bookings: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Fejl ved indlæsning af bookinger: {ex.Message}");
             }
         }
+
 
         public void AddBooking(Booking booking)
         {

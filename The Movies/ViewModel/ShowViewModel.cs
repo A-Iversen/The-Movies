@@ -18,12 +18,12 @@ namespace The_Movies.ViewModel
         private FileShowRepository _repository; 
         private ObservableCollection<Movie> _movieList;
         public ObservableCollection<Cinema> Cinemas { get; } = new();
-        public ObservableCollection<Hall> Halls { get; } = new();
         public ObservableCollection<KeyValuePair<Hall, string>> HallOptions { get; } = new();
         public ObservableCollection<TimeSpan> AvailableTimes { get; } = new();
         public event PropertyChangedEventHandler PropertyChanged;
         private Cinema _selectedCinema;
         private Hall _selectedHall;
+        private HallClass _selectedNewHall;
         private Movie _selectedMovieForShow;
         private string _durationMinutesText;
         private DateTime? _selectedDate;
@@ -60,8 +60,22 @@ namespace The_Movies.ViewModel
         public Cinema SelectedCinema
         {
             get { return _selectedCinema; }
-            set { _selectedCinema = value; OnPropertyChanged(nameof(SelectedCinema)); ShowsView?.Refresh(); }
+            set 
+            { _selectedCinema = value; OnPropertyChanged(nameof(SelectedCinema)); 
+                OnPropertyChanged(nameof(AvailableHalls)); 
+                ShowsView?.Refresh(); 
+            }
         }
+
+        public HallClass SelectedNewHall
+        {
+            get { return _selectedNewHall; }
+            set { _selectedNewHall = value; OnPropertyChanged(nameof(SelectedNewHall)); ShowsView?.Refresh(); }
+        }
+
+        public List<HallClass> AvailableHalls => SelectedCinema?.Halls;
+       
+        
         public Hall SelectedHall
         {
             get { return _selectedHall; }
@@ -96,18 +110,49 @@ namespace The_Movies.ViewModel
         public ShowViewModel(ObservableCollection<Movie> movieList)
         {
             _selectedShow = null;
-            _repository = new FileShowRepository("shows.txt");
+            _repository = new FileShowRepository("shows.txt", Cinemas.ToList());
             _movieList = movieList;
-            // Seed sample cinemas
-            Cinemas.Add(new Cinema { Name = "Downtown Cinema", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
-            Cinemas.Add(new Cinema { Name = "Riverside Multiplex", Halls = { "Sal_1", "Sal_2" } });
-            Cinemas.Add(new Cinema { Name = "Grand Palace", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
-            // Halls from enum
-            foreach (var hall in Enum.GetValues(typeof(Hall)).Cast<Hall>())
+
+            Cinemas = new ObservableCollection<Cinema>
             {
-                Halls.Add(hall);
-                HallOptions.Add(new KeyValuePair<Hall, string>(hall, hall.ToString().Replace("_", " ")));
+            new Cinema("Biffen")
+            {
+                Halls = new List<HallClass>
+                {
+                    new HallClass("Sal 1", 100 ),
+                    new HallClass("Sal 2", 80 ),
+                    new HallClass("Sal 3", 50 )
+                }
+            },
+            new Cinema("Popcorn")
+            {
+                Halls = new List<HallClass>
+                {
+                    new HallClass("Sal 1", 120 ),
+                    new HallClass("Sal 2", 90 )
+                }
+            },
+            new Cinema("Den tredje")
+            {
+                Halls = new List<HallClass>
+                {
+                    new HallClass("Sal 1", 150 ),
+                    new HallClass("Sal 2", 100 ),
+                    new HallClass("Sal 3", 70 )
+                }
             }
+            };
+
+            // Seed sample cinemas
+            //Cinemas.Add(new Cinema { Name = "Downtown Cinema", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
+            //Cinemas.Add(new Cinema { Name = "Riverside Multiplex", Halls = { "Sal_1", "Sal_2" } });
+            //Cinemas.Add(new Cinema { Name = "Grand Palace", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
+            // Halls from enum
+            //foreach (var hall in Enum.GetValues(typeof(Hall)).Cast<Hall>())
+           // {
+              //  Halls.Add(hall);
+               // HallOptions.Add(new KeyValuePair<Hall, string>(hall, hall.ToString().Replace("_", " ")));
+           // }
 
             // 15-minute intervals times
             for (int h = 0; h < 24; h++)
@@ -168,11 +213,11 @@ namespace The_Movies.ViewModel
                 }
 
                 // Ensure a valid hall is selected (allow Sal_1 too)
-                if (!Halls.Contains(SelectedHall))
-                {
-                    System.Windows.MessageBox.Show("Vælg en gyldig sal (f.eks. Sal_1, Sal_2, Sal_3).");
-                    return;
-                }
+                //if (!Halls.Contains(SelectedHall))
+                //{
+                  //  System.Windows.MessageBox.Show("Vælg en gyldig sal (f.eks. Sal_1, Sal_2, Sal_3).");
+                  //  return;
+                //}
 
                 var cinema = SelectedCinema;
 
@@ -184,7 +229,7 @@ namespace The_Movies.ViewModel
                     return;
                 }
 
-                var show = new Show(SelectedMovieForShow, showTime, duration, showTime.Date, cinema, SelectedHall);
+                var show = new Show(SelectedMovieForShow, showTime, duration, showTime.Date, cinema, SelectedNewHall);
 
                 _repository.AddShow(show);
                 OnPropertyChanged(nameof(ShowList));

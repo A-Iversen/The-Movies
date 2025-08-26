@@ -158,10 +158,9 @@
                     <!-- Sal -->
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Sal" VerticalAlignment="Center"/>
                     <ComboBox Grid.Row="5" Grid.Column="1" Width="250"
-                              ItemsSource="{Binding HallOptions}"
-                              SelectedValuePath="Key"
-                              DisplayMemberPath="Value"
-                              SelectedValue="{Binding SelectedHall}"/>
+          ItemsSource="{Binding AvailableHalls}"
+          SelectedItem="{Binding SelectedNewHall}"
+          DisplayMemberPath="Name"/>
 
                     <!-- Opret og Fjern knapper -->
                     <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" Margin="13,16,13,0">

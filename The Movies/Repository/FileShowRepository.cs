@@ -13,6 +13,9 @@ namespace The_Movies.Repository
         private string _filePath;
         private ObservableCollection<Show> _showList;
 
+        public List<Cinema> Cinemas;
+
+
         public string FilePath
         {
             get { return _filePath; }
@@ -25,14 +28,16 @@ namespace The_Movies.Repository
         }
 
         // Constructor
-        public FileShowRepository(string filePath)
+        public FileShowRepository(string filePath, List<Cinema> cinemas)
         {
             _filePath = filePath;
             _showList = new ObservableCollection<Show>();
-            
+            Cinemas = cinemas;
+
             // Try to load existing movies from file
             LoadShowsFromFile();
         }
+
 
         public void LoadShowsFromFile()
         {
@@ -42,6 +47,7 @@ namespace The_Movies.Repository
                 {
                     _showList.Clear();
                     string[] lines = System.IO.File.ReadAllLines(_filePath);
+
                     foreach (string line in lines)
                     {
                         if (string.IsNullOrWhiteSpace(line))
@@ -61,13 +67,31 @@ namespace The_Movies.Repository
 
                             if (double.TryParse(durationText, out double minutes) &&
                                 DateTime.TryParse(showTimeText, out DateTime showTime) &&
-                                DateTime.TryParse(premiereDateText, out DateTime premiereDate) &&
-                                Enum.TryParse(hallText, out Hall hall))
+                                DateTime.TryParse(premiereDateText, out DateTime premiereDate))
                             {
-                                var movie = new Movie(title, minutes, genre, director);
-                                var cinema = new Cinema { Name = cinemaName };
-                                var show = new Show(movie, showTime, TimeSpan.FromMinutes(minutes), premiereDate, cinema, hall);
-                                _showList.Add(show);
+                                // Find den rigtige biograf
+                                var cinema = Cinemas.FirstOrDefault(c => c.Name.Equals(cinemaName, StringComparison.OrdinalIgnoreCase));
+
+                                if (cinema != null)
+                                {
+                                    // Find den rigtige sal i biografen
+                                    var hall = cinema.Halls.FirstOrDefault(h => h.Name.Equals(hallText, StringComparison.OrdinalIgnoreCase));
+
+                                    if (hall != null)
+                                    {
+                                        var movie = new Movie(title, minutes, genre, director);
+                                        var show = new Show(movie, showTime, TimeSpan.FromMinutes(minutes), premiereDate, cinema, hall);
+                                        _showList.Add(show);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine($"Sal '{hallText}' findes ikke i biografen '{cinemaName}'.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Biografen '{cinemaName}' blev ikke fundet.");
+                                }
                             }
                         }
                     }
@@ -75,10 +99,10 @@ namespace The_Movies.Repository
             }
             catch (Exception ex)
             {
-                // If there's an error loading, just start with an empty list
-                System.Diagnostics.Debug.WriteLine($"Error loading movies: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Fejl ved indlæsning af shows: {ex.Message}");
             }
         }
+
 
         // Methods
         public void AddShow(Show show)

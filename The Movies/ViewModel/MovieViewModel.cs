@@ -103,7 +103,6 @@ namespace The_Movies.ViewModel
         public MovieViewModel()
         {
             _repository = new FileMovieRepository("movies.txt");
-            _showRepository = new FileShowRepository("shows.txt");
             _currentMovie = new Movie("", 0, "", "");
             LoadMoviesCommand = new RelayCommand.RelayCommand(LoadMovies);
             CreateMovieCommand = new RelayCommand.RelayCommand(CreateMovie, CanCreateMovie);

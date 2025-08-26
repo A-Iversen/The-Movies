@@ -27,10 +27,7 @@ namespace The_Movies.Model
             _numberOfSeats = numberOfSeats;
         }
 
-        public override string ToString()
-        {
-            return $"{_name} ({_numberOfSeats} seats)";
-        }
+        public override string ToString() => Name;
     }
 }
 
