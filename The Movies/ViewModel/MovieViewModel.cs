@@ -79,7 +79,6 @@ namespace The_Movies.ViewModel
                 Movie newMovie = new Movie(Title, Duration, Genre, Director);
                 
                 // Gemmer film til repository
-                _repository.MovieList.Add(newMovie);
                 _repository.AddMovie(newMovie);
                 MessageBox.Show($"Movie created successfully: {Title} - {Genre} ({Duration} minutes) - {Director}");
                 
