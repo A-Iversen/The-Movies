@@ -22,6 +22,83 @@ namespace The_Movies.ViewModel
         private Movie _selectedMovie;
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        public Movie SelectedMovie
+        {
+            get => _selectedMovie;
+            set
+            {
+                _selectedMovie = value;
+                OnPropertyChanged(nameof(SelectedMovie));
+            }
+        }
+        public string Title
+        {
+            get { return _currentMovie.Title; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    MessageBox.Show("Title cannot be empty.");
+                    return;
+                }
+                _currentMovie.Title = value;
+                OnPropertyChanged();
+            }
+        }
+        public double Duration
+        {
+            get { return _currentMovie.Duration; }
+            set
+            {
+                if (value <= 0)
+                {
+                    MessageBox.Show("Duration must be greater than zero.");
+                    return;
+                }
+                _currentMovie.Duration = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Genre
+        {
+            get { return _currentMovie.Genre; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    MessageBox.Show("Genre cannot be empty.");
+                    return;
+                }
+                _currentMovie.Genre = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Director
+        {
+            get { return _currentMovie.Director; }
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    MessageBox.Show("Director cannot be empty.");
+                    return;
+                }
+                _currentMovie.Director = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Movie> MovieList
+        {
+            get { return _repository.MovieList; }
+            set
+            {
+                _repository.MovieList = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         // Constructor
         public MovieViewModel()
         {
@@ -37,15 +114,7 @@ namespace The_Movies.ViewModel
         public ICommand CreateMovieCommand { get; private set; }
         public ICommand RemoveMovieCommand { get; }
 
-        public Movie SelectedMovie
-        {
-            get => _selectedMovie;
-            set
-            {
-                _selectedMovie = value;
-                OnPropertyChanged(nameof(SelectedMovie));
-            }
-        }
+       
 
         private void LoadMovies(object obj)
         {
@@ -111,75 +180,7 @@ namespace The_Movies.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public string Title
-        {
-            get { return _currentMovie.Title; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    MessageBox.Show("Title cannot be empty.");
-                    return;
-                }
-                _currentMovie.Title = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double Duration
-        {
-            get { return _currentMovie.Duration; }
-            set
-            {
-                if (value <= 0)
-                {
-                    MessageBox.Show("Duration must be greater than zero.");
-                    return;
-                }
-                _currentMovie.Duration = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Genre
-        {
-            get { return _currentMovie.Genre; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    MessageBox.Show("Genre cannot be empty.");
-                    return;
-                }
-                _currentMovie.Genre = value;
-                OnPropertyChanged();
-            }
-        }
-        public string Director
-        {
-            get { return _currentMovie.Director; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    MessageBox.Show("Director cannot be empty.");
-                    return;
-                }
-                _currentMovie.Director = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<Movie> MovieList
-        {
-            get { return _repository.MovieList; }
-            set
-            {
-                _repository.MovieList = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
 
     }
 
