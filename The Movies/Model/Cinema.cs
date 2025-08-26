@@ -9,9 +9,19 @@ namespace The_Movies.Model
     public class Cinema
     {
         public string Name { get; set; } = string.Empty;
-        public List<string> Halls { get; set; } = new();
+        public List<HallClass> Halls { get; set; } = new();
         public override string ToString() => Name;
 
+
+
+        public Cinema(string name)
+        {
+            Name = name;
+            Halls = new List<HallClass>();
+        }
+
+
+
     }
-    
+
 }

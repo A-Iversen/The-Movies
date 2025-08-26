@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace The_Movies.Model
 {
-    class HallClass
+    public class HallClass
     {
         private string _name;
         private int _numberOfSeats;
