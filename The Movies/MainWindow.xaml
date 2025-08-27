@@ -224,10 +224,11 @@
                 <!-- Biograf -->
 
                 <TextBlock HorizontalAlignment="Left" Margin="22,105,0,0" TextWrapping="Wrap" Text="Biograf" VerticalAlignment="Top" Grid.Column="5"/>
-                <ComboBox Grid.Row="0" Grid.Column="5" Margin="22,130,421,258"
-                ItemsSource="{Binding Cinemas}"
-                SelectedItem="{Binding SelectedCinema}"
-                          DisplayMemberPath="Name"/>
+                <ComboBox Grid.Row="0" Grid.Column="5" Margin="23,116,426,261"
+                Panel.ZIndex="10"
+                ItemsSource="{Binding ElementName=ShowsTab, Path=DataContext.Cinemas}"
+                SelectedItem="{Binding ElementName=ShowsTab, Path=DataContext.SelectedCinema, Mode=TwoWay}"
+                DisplayMemberPath="Name"/>
                 
                 <!-- Forestilling -->
                 
