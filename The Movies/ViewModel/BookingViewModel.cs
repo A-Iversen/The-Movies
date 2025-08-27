@@ -37,6 +37,7 @@ namespace The_Movies.ViewModel
             _bookingRepository = bookingRepo;
             _movieRepository = movieRepo;
             _showRepository = showRepo;
+            Console.WriteLine($"[BookingVM] ShowList count: {_showRepository.ShowList.Count}");
 
             Cinemas = cinemas;
 
@@ -104,19 +105,24 @@ namespace The_Movies.ViewModel
         private void UpdateMovies()
         {
             MovieList.Clear();
+
             if (SelectedCinema == null)
                 return;
 
-            // Find unikke film der vises i den valgte biograf via shows
             var movies = _showRepository.ShowList
-                .Where(s => s.Cinema == SelectedCinema)
-                .Select(s => s.Movie)
-                .Distinct()
-                .OrderBy(m => m.Title);
+                .Where(s => string.Equals(s.Cinema?.Name, SelectedCinema.Name, StringComparison.OrdinalIgnoreCase))
+                .Select(s => s.Movie.Title) // Kun titler
+                .Distinct();
 
-            foreach (var movie in movies)
+            foreach (var title in movies)
             {
-                MovieList.Add(movie);
+                // Find matchende film fra MovieRepository (eller evt. mvm.MovieList hvis du har adgang til den)
+                var matchedMovie = _movieRepository.MovieList.FirstOrDefault(m => m.Title == title);
+
+                if (matchedMovie != null)
+                {
+                    MovieList.Add(matchedMovie);
+                }
             }
         }
 
@@ -128,6 +134,9 @@ namespace The_Movies.ViewModel
                 if (_selectedMovie != value)
                 {
                     _selectedMovie = value;
+                    Console.WriteLine("SelectedMovie changed, calling UpdateAvailableShows");
+                    UpdateAvailableShows();
+                    Console.WriteLine($"AvailableShows count: {AvailableShows.Count}");
                     OnPropertyChanged();
                     UpdateAvailableShows();
                     SelectedShow = null;
@@ -157,8 +166,7 @@ namespace The_Movies.ViewModel
                 {
                     _selectedDate = value;
                     OnPropertyChanged();
-                    UpdateAvailableShows();
-                    SelectedShow = null;
+                    
                 }
             }
         }
@@ -166,19 +174,26 @@ namespace The_Movies.ViewModel
         private void UpdateAvailableShows()
         {
             AvailableShows.Clear();
-            if (SelectedCinema == null || SelectedMovie == null)
-                return;
 
-            var shows = _showRepository.ShowList
-                .Where(s => s.Cinema == SelectedCinema &&
-                            s.Movie == SelectedMovie &&
-                            s.ShowTime.Date == SelectedDate.Date)
-                .OrderBy(s => s.ShowTime);
-
-            foreach (var show in shows)
+            foreach (var show in GetFilteredShows())
             {
                 AvailableShows.Add(show);
             }
+
+            // Debug log hvis ønsket
+            Console.WriteLine($"Tilføjede {AvailableShows.Count} shows til listen.");
+        }
+
+        private IEnumerable<Show> GetFilteredShows()
+        {
+            if (SelectedCinema == null || SelectedMovie == null)
+                return Enumerable.Empty<Show>();
+
+            return _showRepository.ShowList
+                .Where(s =>
+                    s.Cinema?.Name == SelectedCinema.Name &&
+                    s.Movie?.Title == SelectedMovie.Title)
+                .OrderBy(s => s.ShowTime);
         }
 
         // Booking fields

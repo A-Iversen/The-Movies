@@ -75,8 +75,8 @@ namespace The_Movies
 
             // --- HER TILFØJER VI BookingViewModel ---
 
-           
-            bookingRepository = new FileBookingRepository("bookings.txt");
+
+            bookingRepository = new FileBookingRepository("bookings.txt", showRepository);
 
             // Lav BookingViewModel med bookingRepository, showRepository og movieRepository
             bvm = new BookingViewModel(bookingRepository, mvm.MovieRepository, showRepository, sharedCinemas);
