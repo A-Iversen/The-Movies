@@ -276,7 +276,7 @@
                 </Grid>
 
                 <!-- Højre liste (filtreret efter valgt biograf) -->
-                <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Forestillinger">
+                <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Bookinger">
                     <ListBox ItemsSource="{Binding ShowsView}" SelectedItem="{Binding SelectedShow}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
