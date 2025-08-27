@@ -204,10 +204,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Venstre formular -->
-                <Grid Grid.Column="0" Margin="20,20,20,20" Grid.ColumnSpan="2">
+                <Grid Grid.Column="0" Margin="20" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -223,17 +221,17 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Biograf -->
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Biograf" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="0" Grid.Column="1" Width="250"
-                    ItemsSource="{Binding Cinemas}"
-                    SelectedItem="{Binding SelectedCinema}"
-                    DisplayMemberPath="Name"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Biograf" VerticalAlignment="Center" Margin="0,5"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Width="250" Margin="0,5"
+              ItemsSource="{Binding Cinemas}"
+              SelectedItem="{Binding SelectedCinema}"
+              DisplayMemberPath="Name"/>
 
                     <!-- Film -->
-                    <TextBlock Grid.Row="1" Text="Film" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,160,0"/>
-                    <ComboBox Grid.Row="1" Grid.Column="2" Width="250"
-                      ItemsSource="{Binding MovieList}"
-                      SelectedItem="{Binding SelectedMovieForShow}">
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Film" VerticalAlignment="Center" Margin="0,5"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Width="250" Margin="0,5"
+              ItemsSource="{Binding Movies}"
+              SelectedItem="{Binding SelectedMovieForShow}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Title}"/>
@@ -242,15 +240,15 @@
                     </ComboBox>
 
                     <!-- Dato -->
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Dato" VerticalAlignment="Center"/>
-                    <DatePicker Grid.Row="3" Grid.Column="1" Width="250"
-                        SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Dato" VerticalAlignment="Center" Margin="0,5"/>
+                    <DatePicker Grid.Row="2" Grid.Column="1" Width="250" Margin="0,5"
+                SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <!-- Tidspunkt -->
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Tidspunkt" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="4" Grid.Column="1" Width="250"
-                      ItemsSource="{Binding AvailableTimes}"
-                      SelectedItem="{Binding SelectedTime}">
+                    <!-- Visninger -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Visninger" VerticalAlignment="Center" Margin="0,5"/>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Width="250" Margin="0,5"
+              ItemsSource="{Binding ShowsView}"
+              SelectedItem="{Binding SelectedShow}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding StringFormat={}{0:hh\\:mm}}"/>
@@ -258,20 +256,25 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
 
+                    <!-- Email -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Email" VerticalAlignment="Center" Margin="0,5"/>
+                    <TextBox Grid.Row="4" Grid.Column="1" Width="250" Margin="0,5"
+             Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
 
+                    <!-- Telefonnummer -->
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Telefonnummer" VerticalAlignment="Center" Margin="0,5"/>
+                    <TextBox Grid.Row="5" Grid.Column="1" Width="250" Margin="0,5"
+             Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <!-- Sal -->
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Sal" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Row="6" Grid.Column="1" Width="250"
-                      ItemsSource="{Binding AvailableHalls}"
-                      SelectedItem="{Binding SelectedNewHall}"
-                      DisplayMemberPath="Name"/>
+                    <!-- Antal billetter -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Antal billetter" VerticalAlignment="Center" Margin="0,5"/>
+                    <TextBox Grid.Row="6" Grid.Column="1" Width="250" Margin="0,5"
+             Text="{Binding QtyTickets, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <!-- Opret og Fjern knapper -->
-                    <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="13,16,13,0">
-                        <Button Width="117" Content="Opret Booking" Command="{Binding CreateBookingCommand}"/>
-                        <Button Width="121" Margin="12,0,0,0" Content="Fjern Booking"
-                        Command="{Binding RemoveBookingCommand}"/>
+                    <!-- Knapper -->
+                    <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,15,0,0">
+                        <Button Content="Opret Booking" Command="{Binding CreateBookingCommand}" Width="120" Margin="0,0,10,0"/>
+                        <Button Content="Fjern Booking" Command="{Binding RemoveBookingCommand}" Width="120"/>
                     </StackPanel>
                 </Grid>
 

@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using The_Movies.ViewModel;
+using The_Movies.Repository;  // Husk at importere repository-navneområdet
 
 namespace The_Movies
 {
@@ -19,23 +20,39 @@ namespace The_Movies
     {
         MovieViewModel mvm = new MovieViewModel();
         ShowViewModel svm;
+        BookingViewModel bvm;
+        FileBookingRepository bookingRepository; // Tilføjet
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = mvm;
             mvm.LoadMoviesCommand.Execute(null);
 
-            // Bind Shows tab to its own ShowViewModel, using existing movies
+            // Bind Shows tab til ShowViewModel, som bruger eksisterende movies
             svm = new ShowViewModel(mvm.MovieList);
             if (ShowsTab != null)
             {
                 ShowsTab.DataContext = svm;
             }
+
+            // --- HER TILFØJER VI BookingViewModel ---
+
+            // Opret bookingRepository med samme cinemas som showRepository
+            bookingRepository = new FileBookingRepository("bookings.txt");
+
+            // Lav BookingViewModel med bookingRepository, showRepository og movieRepository
+            bvm = new BookingViewModel(bookingRepository, mvm.MovieRepository);
+
+            if (BookingTab != null)
+            {
+                BookingTab.DataContext = bvm;
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            // ...
         }
     }
 }

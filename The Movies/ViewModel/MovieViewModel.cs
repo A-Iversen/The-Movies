@@ -22,6 +22,8 @@ namespace The_Movies.ViewModel
         private Movie _selectedMovie;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public FileMovieRepository MovieRepository => _repository;
+
 
         public Movie SelectedMovie
         {

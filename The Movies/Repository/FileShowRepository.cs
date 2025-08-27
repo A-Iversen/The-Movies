@@ -13,10 +13,10 @@ namespace The_Movies.Repository
         private string _filePath;
         private ObservableCollection<Show> _showList;
 
-        public List<Cinema> Cinemas;
+        public ObservableCollection<Cinema> Cinemas;
+    
 
-
-        public string FilePath
+    public string FilePath
         {
             get { return _filePath; }
             set { _filePath = value; }
@@ -27,8 +27,11 @@ namespace The_Movies.Repository
             set { _showList = value; }
         }
 
-        // Constructor
-        public FileShowRepository(string filePath, List<Cinema> cinemas)
+      
+
+
+    // Constructor
+    public FileShowRepository(string filePath, ObservableCollection<Cinema> cinemas)
         {
             _filePath = filePath;
             _showList = new ObservableCollection<Show>();

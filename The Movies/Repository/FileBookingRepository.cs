@@ -10,7 +10,7 @@ namespace The_Movies.Repository
     {
         private string _filePath;
         private ObservableCollection<Booking> _bookingList;
-        public List<Cinema> Cinemas;
+        public ObservableCollection<Cinema> Cinemas;
 
         public string FilePath
         {
@@ -25,13 +25,13 @@ namespace The_Movies.Repository
         }
 
         // Constructor
-        public FileBookingRepository(string filePath, List<Cinema> cinemas)
+        public FileBookingRepository(string filePath)
         {
             _filePath = filePath;
             _bookingList = new ObservableCollection<Booking>();
 
             LoadBookingsFromFile();
-            Cinemas = cinemas;
+            
         }
 
         public void LoadBookingsFromFile()

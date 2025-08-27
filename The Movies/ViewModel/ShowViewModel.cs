@@ -27,6 +27,8 @@ namespace The_Movies.ViewModel
         private DateTime? _selectedDate;
         private TimeSpan _selectedTime;
 
+        public FileShowRepository Repository => _repository;
+
         public ObservableCollection<Show> ShowList
         {
             get => _repository.ShowList;
@@ -102,7 +104,7 @@ namespace The_Movies.ViewModel
         public ShowViewModel(ObservableCollection<Movie> movieList)
         {
             _selectedShow = null;
-            _repository = new FileShowRepository("shows.txt", Cinemas.ToList());
+            _repository = new FileShowRepository("shows.txt", Cinemas);
             _movieList = movieList;
 
             Cinemas = new ObservableCollection<Cinema>
