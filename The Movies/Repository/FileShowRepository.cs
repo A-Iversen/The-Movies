@@ -127,7 +127,7 @@ namespace The_Movies.Repository
                 List<string> lines = new List<string>();
                 foreach (var show in _showList)
                 {
-                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema?.Name},{show.Hall}";
+                    string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema?.Name},{show.Hall?.Name}";
                     lines.Add(line);
                 }
                 System.IO.File.WriteAllLines(_filePath, lines);

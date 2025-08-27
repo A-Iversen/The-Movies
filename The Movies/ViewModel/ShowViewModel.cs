@@ -18,12 +18,10 @@ namespace The_Movies.ViewModel
         private FileShowRepository _repository; 
         private ObservableCollection<Movie> _movieList;
         public ObservableCollection<Cinema> Cinemas { get; } = new();
-        public ObservableCollection<KeyValuePair<Hall, string>> HallOptions { get; } = new();
         public ObservableCollection<TimeSpan> AvailableTimes { get; } = new();
         public event PropertyChangedEventHandler PropertyChanged;
         private Cinema _selectedCinema;
         private Hall _selectedHall;
-        private HallClass _selectedNewHall;
         private Movie _selectedMovieForShow;
         private string _durationMinutesText;
         private DateTime? _selectedDate;
@@ -67,13 +65,7 @@ namespace The_Movies.ViewModel
             }
         }
 
-        public HallClass SelectedNewHall
-        {
-            get { return _selectedNewHall; }
-            set { _selectedNewHall = value; OnPropertyChanged(nameof(SelectedNewHall)); ShowsView?.Refresh(); }
-        }
-
-        public List<HallClass> AvailableHalls => SelectedCinema?.Halls;
+        public List<Hall> AvailableHalls => SelectedCinema?.Halls;
        
         
         public Hall SelectedHall
@@ -229,7 +221,7 @@ namespace The_Movies.ViewModel
                     return;
                 }
 
-                var show = new Show(SelectedMovieForShow, showTime, duration, showTime.Date, cinema, SelectedNewHall);
+                var show = new Show(SelectedMovieForShow, showTime, duration, showTime.Date, cinema, SelectedHall);
 
                 _repository.AddShow(show);
                 OnPropertyChanged(nameof(ShowList));
@@ -251,7 +243,7 @@ namespace The_Movies.ViewModel
                 {
                     continue;
                 }
-                if (!Equals(existing.Hall, hall))
+                if (!string.Equals(existing.Hall?.Name, hall?.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     continue;
                 }
@@ -314,9 +306,9 @@ namespace The_Movies.ViewModel
                     return false;
                 }
                 // If a hall is selected, also filter by that hall
-                if (!EqualityComparer<Hall>.Default.Equals(SelectedHall, default(Hall)))
+                if (SelectedHall != null)
                 {
-                    return EqualityComparer<Hall>.Default.Equals(show.Hall, SelectedHall);
+                    return string.Equals(show.Hall?.Name, SelectedHall.Name, StringComparison.OrdinalIgnoreCase);
                 }
                 return true;
             }

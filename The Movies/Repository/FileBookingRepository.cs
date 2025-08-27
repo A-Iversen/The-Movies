@@ -142,7 +142,7 @@ namespace The_Movies.Repository
                                   $"{booking.Show.Movie.Title},{booking.Show.Duration.TotalMinutes}," +
                                   $"{booking.Show.Movie.Genre},{booking.Show.Movie.Director}," +
                                   $"{booking.Show.ShowTime},{booking.Show.PremiereDate}," +
-                                  $"{booking.Show.Cinema?.Name},{booking.Show.Hall}";
+                                  $"{booking.Show.Cinema?.Name},{booking.Show.Hall?.Name}";
                     lines.Add(line);
                 }
                 File.WriteAllLines(_filePath, lines);
