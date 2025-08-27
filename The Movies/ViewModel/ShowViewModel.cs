@@ -73,7 +73,9 @@ namespace The_Movies.ViewModel
         public Hall SelectedHall
         {
             get { return _selectedHall; }
-            set { _selectedHall = value; OnPropertyChanged(nameof(SelectedHall)); ShowsView?.Refresh(); }
+            set { _selectedHall = value;
+                Console.WriteLine($"SelectedHall set to: {_selectedHall?.Name}");
+                OnPropertyChanged(nameof(SelectedHall)); ShowsView?.Refresh(); }
         }
         public Movie SelectedMovieForShow
         {
@@ -104,49 +106,48 @@ namespace The_Movies.ViewModel
         public ShowViewModel(ObservableCollection<Movie> movieList)
         {
             _selectedShow = null;
-            _repository = new FileShowRepository("shows.txt", Cinemas);
+            
             _movieList = movieList;
 
-            Cinemas = new ObservableCollection<Cinema>
-            {
-            new Cinema("Biffen")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 100 ),
-                    new Hall("Sal 2", 80 ),
-                    new Hall("Sal 3", 50 )
-                }
-            },
-            new Cinema("Popcorn")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 120 ),
-                    new Hall("Sal 2", 90 )
-                }
-            },
-            new Cinema("Den tredje")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 150 ),
-                    new Hall("Sal 2", 100 ),
-                    new Hall("Sal 3", 70 )
-                }
-            }
-            };
+            var sharedCinemas = new ObservableCollection<Cinema>
+{
+    new Cinema("Biffen")
+    {
+        Halls = new List<Hall>
+        {
+            new Hall("Sal 1", 100 ),
+            new Hall("Sal 2", 80 ),
+            new Hall("Sal 3", 50 )
+        }
+    },
+    new Cinema("Popcorn")
+    {
+        Halls = new List<Hall>
+        {
+            new Hall("Sal 1", 120 ),
+            new Hall("Sal 2", 90 )
+        }
+    },
+    new Cinema("Den tredje")
+    {
+        Halls = new List<Hall>
+        {
+            new Hall("Sal 1", 150 ),
+            new Hall("Sal 2", 100 ),
+            new Hall("Sal 3", 70 )
+        }
+    }
+};
 
-            // Seed sample cinemas
-            //Cinemas.Add(new Cinema { Name = "Downtown Cinema", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
-            //Cinemas.Add(new Cinema { Name = "Riverside Multiplex", Halls = { "Sal_1", "Sal_2" } });
-            //Cinemas.Add(new Cinema { Name = "Grand Palace", Halls = { "Sal_1", "Sal_2", "Sal_3" } });
-            // Halls from enum
-            //foreach (var hall in Enum.GetValues(typeof(Hall)).Cast<Hall>())
-           // {
-              //  Halls.Add(hall);
-               // HallOptions.Add(new KeyValuePair<Hall, string>(hall, hall.ToString().Replace("_", " ")));
-           // }
+            Cinemas = sharedCinemas;
+            _repository = new FileShowRepository("shows.txt", Cinemas);
+
+            _repository.LoadShowsFromFile(); // ✅ Kald bare metoden her
+
+            // Du skal ikke sætte ShowList direkte – det peger på _repository.ShowList
+            OnPropertyChanged(nameof(ShowList)); // 🔁 Sørg for UI opdateres
+
+
 
             // 15-minute intervals times
             for (int h = 0; h < 24; h++)

@@ -13,7 +13,7 @@ namespace The_Movies.Repository
         private string _filePath;
         private ObservableCollection<Show> _showList;
 
-        public ObservableCollection<Cinema> Cinemas;
+        private ObservableCollection<Cinema> _cinemas;
     
 
     public string FilePath
@@ -27,17 +27,20 @@ namespace The_Movies.Repository
             set { _showList = value; }
         }
 
-      
+        public ObservableCollection<Cinema> Cinemas
+        {
+            get { return _cinemas; }
+            set { _cinemas = value; }
+        }
 
 
-    // Constructor
-    public FileShowRepository(string filePath, ObservableCollection<Cinema> cinemas)
+        // Constructor
+        public FileShowRepository(string filePath, ObservableCollection<Cinema> cinemas)
         {
             _filePath = filePath;
             _showList = new ObservableCollection<Show>();
-            Cinemas = cinemas;
+            _cinemas = cinemas;
 
-            // Try to load existing movies from file
             LoadShowsFromFile();
         }
 
@@ -132,6 +135,7 @@ namespace The_Movies.Repository
                 {
                     string line = $"{show.Movie.Title},{show.Duration.TotalMinutes},{show.Movie.Genre},{show.Movie.Director},{show.ShowTime},{show.PremiereDate},{show.Cinema?.Name},{show.Hall?.Name}";
                     lines.Add(line);
+                    Console.WriteLine($"Saving show line: {line}"); // Debug output
                 }
                 System.IO.File.WriteAllLines(_filePath, lines);
             }

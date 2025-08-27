@@ -38,7 +38,7 @@ namespace The_Movies
 
             // --- HER TILFØJER VI BookingViewModel ---
 
-            // Opret bookingRepository med samme cinemas som showRepository
+           
             bookingRepository = new FileBookingRepository("bookings.txt");
 
             // Lav BookingViewModel med bookingRepository, showRepository og movieRepository

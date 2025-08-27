@@ -36,10 +36,11 @@ namespace The_Movies.ViewModel
         {
             _bookingRepository = bookingRepository;
             _movieRepository = movieRepository;
+             _showRepository = new FileShowRepository("shows.txt", Cinemas);
              MovieList = new ObservableCollection<Movie>();
              AvailableShows = new ObservableCollection<Show>();
 
-            _showRepository = new FileShowRepository("shows.txt", Cinemas);
+            
 
             Cinemas = new ObservableCollection<Cinema>
             {

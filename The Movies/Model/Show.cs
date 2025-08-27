@@ -56,10 +56,10 @@ namespace The_Movies.Model
         }
 
         // Readable display for Hall
-        public string HallDisplay
-        {
-            get { return _hall?.Name; }
-        }
+        //public string HallDisplay
+        //{
+          //  get { return _hall.Name; }
+       // }
 
         // Constructor
         public Show(Movie movie, DateTime showTime, TimeSpan duration, DateTime premiereDate, Cinema cinema, Hall hall)

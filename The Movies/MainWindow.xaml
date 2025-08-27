@@ -160,7 +160,7 @@
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Sal" VerticalAlignment="Center"/>
                     <ComboBox Grid.Row="5" Grid.Column="1" Width="250"
           ItemsSource="{Binding AvailableHalls}"
-          SelectedItem="{Binding SelectedNewHall}"
+          SelectedItem="{Binding SelectedHall}"
           DisplayMemberPath="Name"/>
 
                     <!-- Opret og Fjern knapper -->
@@ -186,7 +186,7 @@
                                         <TextBlock Text="Slut: "/>
                                         <TextBlock Text="{Binding EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding HallDisplay}"/>
+                                    <TextBlock Text="{Binding Hall.Name}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -293,7 +293,7 @@
                                         <TextBlock Text="Slut: "/>
                                         <TextBlock Text="{Binding EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding HallDisplay}"/>
+                                    <TextBlock Text="{Binding SelectedHall}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

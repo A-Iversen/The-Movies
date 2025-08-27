@@ -18,7 +18,6 @@ namespace The_Movies.ViewModel
     {
         private Movie _currentMovie;
         private FileMovieRepository _repository;
-        private FileShowRepository _showRepository;
         private Movie _selectedMovie;
         public event PropertyChangedEventHandler PropertyChanged;
 
