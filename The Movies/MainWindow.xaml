@@ -193,7 +193,7 @@
                 </GroupBox>
             </Grid>
         </TabItem>
-        <TabItem Header="Booking" x:Name="Bookings">
+        <TabItem Header="Booking" x:Name="Bookings" Height="20" VerticalAlignment="Top">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="14*"/>
@@ -220,12 +220,23 @@
                 </Button>
                 <!-- Logo -->
                 <Image HorizontalAlignment="Left" Height="100" Margin="118,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png" Grid.Column="5"/>
+
                 <!-- Biograf -->
-                <TextBlock HorizontalAlignment="Left" Margin="22,125,0,0" TextWrapping="Wrap" Text="Biograf" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="22,141,0,0" TextWrapping="Wrap" Text="{Binding Cinema, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,105,0,0" TextWrapping="Wrap" Text="Biograf" VerticalAlignment="Top" Grid.Column="5"/>
+                <ComboBox Grid.Row="0" Grid.Column="5" Margin="22,130,421,258"
+                ItemsSource="{Binding Cinemas}"
+                SelectedItem="{Binding SelectedCinema}"
+                          DisplayMemberPath="Name"/>
+                
                 <!-- Forestilling -->
-                <TextBlock HorizontalAlignment="Left" Margin="22,160,0,0" TextWrapping="Wrap" Text="Forestilling" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="22,181,0,0" TextWrapping="Wrap" Text="{Binding Show, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
+                
+                <TextBlock HorizontalAlignment="Left" Margin="23,158,0,0" TextWrapping="Wrap" Text="Forestilling" VerticalAlignment="Top" Grid.Column="5"/>
+                <ComboBox Grid.Row="0" Grid.Column="5" Margin="22,179,421,209"
+                ItemsSource="{Binding Shows}"
+                SelectedItem="{Binding SelectedShow}"
+                DisplayMemberPath="Name"/>
+                
                 <!-- Telefonnummer -->
                 <TextBlock HorizontalAlignment="Left" Margin="22,204,0,0" TextWrapping="Wrap" Text="Telefonnummer" VerticalAlignment="Top" Grid.Column="5"/>
                 <TextBox HorizontalAlignment="Left" Margin="22,220,0,0" TextWrapping="Wrap" Text="{Binding Telefonnumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
