@@ -94,12 +94,13 @@
         <TabItem Header="Forestilling" x:Name="ShowsTab">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="155*"/>
+                    <ColumnDefinition Width="321*"/>
+                    <ColumnDefinition Width="318*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Venstre formular -->
-                <Grid Grid.Column="0" Margin="20">
+                <Grid Grid.Column="0" Margin="20,20,20,20" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -171,7 +172,7 @@
                 </Grid>
 
                 <!-- Højre liste (filtreret efter valgt biograf) -->
-                <GroupBox Grid.Column="1" Margin="20" Header="Forestillinger">
+                <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Forestillinger">
                     <ListBox ItemsSource="{Binding ShowsView}" SelectedItem="{Binding SelectedShow}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -193,105 +194,108 @@
                 </GroupBox>
             </Grid>
         </TabItem>
-        <TabItem Header="Booking" x:Name="Bookings" Height="20" VerticalAlignment="Top">
+
+        <TabItem Header="Booking" x:Name="BookingTab">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="14*"/>
-                    <ColumnDefinition Width="17*"/>
-                    <ColumnDefinition Width="64*"/>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="110*"/>
-                    <ColumnDefinition Width="565*"/>
+                    <ColumnDefinition Width="155*"/>
+                    <ColumnDefinition Width="321*"/>
+                    <ColumnDefinition Width="318*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Opret Booking" HorizontalAlignment="Left" Margin="40,347,0,0" VerticalAlignment="Top" 
-        Command="{Binding Book}"
-        ToolTip="Fill in all fields to create a booking" Grid.Column="5">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-                <!-- Logo -->
-                <Image HorizontalAlignment="Left" Height="100" Margin="118,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png" Grid.Column="5"/>
+                <!-- Venstre formular -->
+                <Grid Grid.Column="0" Margin="20,20,20,20" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!-- Biograf -->
+                    <!-- Biograf -->
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Biograf" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Width="250"
+                    ItemsSource="{Binding Cinemas}"
+                    SelectedItem="{Binding SelectedCinema}"
+                    DisplayMemberPath="Name"/>
 
-                <TextBlock HorizontalAlignment="Left" Margin="22,105,0,0" TextWrapping="Wrap" Text="Biograf" VerticalAlignment="Top" Grid.Column="5"/>
-                <ComboBox Grid.Row="0" Grid.Column="5" Margin="23,116,426,261"
-                Panel.ZIndex="10"
-                ItemsSource="{Binding ElementName=ShowsTab, Path=DataContext.Cinemas}"
-                SelectedItem="{Binding ElementName=ShowsTab, Path=DataContext.SelectedCinema, Mode=TwoWay}"
-                DisplayMemberPath="Name"/>
-                
-                <!-- Forestilling -->
-                
-                <TextBlock HorizontalAlignment="Left" Margin="23,158,0,0" TextWrapping="Wrap" Text="Forestilling" VerticalAlignment="Top" Grid.Column="5"/>
-                <ComboBox Grid.Row="0" Grid.Column="5" Margin="22,179,421,209"
-                ItemsSource="{Binding Shows}"
-                SelectedItem="{Binding SelectedShow}"
-                DisplayMemberPath="Name"/>
-                
-                <!-- Telefonnummer -->
-                <TextBlock HorizontalAlignment="Left" Margin="22,204,0,0" TextWrapping="Wrap" Text="Telefonnummer" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="22,220,0,0" TextWrapping="Wrap" Text="{Binding Telefonnumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
-                <!-- Email -->
-                <TextBlock HorizontalAlignment="Left" Margin="22,246,0,0" TextWrapping="Wrap" Text="Email" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="22,262,0,0" TextWrapping="Wrap" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
-                <!-- Antal Billetter -->
-                <TextBlock HorizontalAlignment="Left" Margin="22,286,0,0" TextWrapping="Wrap" Text="Antal Billetter" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="22,307,0,0" TextWrapping="Wrap" Text="{Binding Antal_Billetter, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
-                <!-- Indtast Telefonnummer -->
-                <TextBlock HorizontalAlignment="Left" Margin="320,80,0,0" TextWrapping="Wrap" Text="Telefonnummer" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="320,96,0,0" TextWrapping="Wrap" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
-                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
-         Margin="200,125,40,125" Grid.Column="5">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Title}" FontWeight="Bold" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Duration}" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Genre}" Margin="0,0,10,0" />
-                                <TextBlock Text="{Binding Director}" Margin="0,0,10,0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Content="Slet Booking" HorizontalAlignment="Left" Margin="138,347,0,0" VerticalAlignment="Top" 
-    Command="{Binding DeleteBooking}"
-    ToolTip="Fill in all fields to delete a booking" Grid.Column="5">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                    <!-- Film -->
+                    <TextBlock Grid.Row="1" Text="Film" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,160,0"/>
+                    <ComboBox Grid.Row="1" Grid.Column="2" Width="250"
+                      ItemsSource="{Binding MovieList}"
+                      SelectedItem="{Binding SelectedMovieForShow}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Title}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-                <Button Content="Find Booking" HorizontalAlignment="Left" Margin="450,86,0,0" VerticalAlignment="Top" 
-Command="{Binding FindBooking}"
-ToolTip="Insert telefonnumber to find a booking" Grid.Column="5">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Background" Value="LightGray"/>
-                                    <Setter Property="Foreground" Value="Gray"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
+                    <!-- Dato -->
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Dato" VerticalAlignment="Center"/>
+                    <DatePicker Grid.Row="3" Grid.Column="1" Width="250"
+                        SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <!-- Tidspunkt -->
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Tidspunkt" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Width="250"
+                      ItemsSource="{Binding AvailableTimes}"
+                      SelectedItem="{Binding SelectedTime}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StringFormat={}{0:hh\\:mm}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+
+
+                    <!-- Sal -->
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Sal" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Row="6" Grid.Column="1" Width="250"
+                      ItemsSource="{Binding AvailableHalls}"
+                      SelectedItem="{Binding SelectedNewHall}"
+                      DisplayMemberPath="Name"/>
+
+                    <!-- Opret og Fjern knapper -->
+                    <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="13,16,13,0">
+                        <Button Width="117" Content="Opret Booking" Command="{Binding CreateShowCommand}"/>
+                        <Button Width="121" Margin="12,0,0,0" Content="Fjern Booking"
+                        Command="{Binding RemoveShowCommand}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Højre liste (filtreret efter valgt biograf) -->
+                <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Forestillinger">
+                    <ListBox ItemsSource="{Binding ShowsView}" SelectedItem="{Binding SelectedShow}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Movie.Title}" FontWeight="Bold"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Start: "/>
+                                        <TextBlock Text="{Binding ShowTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Slut: "/>
+                                        <TextBlock Text="{Binding EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding HallDisplay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
             </Grid>
         </TabItem>
     </TabControl>
