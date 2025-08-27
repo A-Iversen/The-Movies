@@ -33,6 +33,8 @@ namespace The_Movies.ViewModel
 
         public BookingViewModel(FileBookingRepository bookingRepository, FileShowRepository showRepository)
         {
+            _repository = bookingRepository;
+            _showRepository = showRepository;
 
             _repository.LoadBookingsFromFile();
 
