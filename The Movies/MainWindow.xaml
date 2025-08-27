@@ -269,15 +269,15 @@
 
                     <!-- Opret og Fjern knapper -->
                     <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="13,16,13,0">
-                        <Button Width="117" Content="Opret Booking" Command="{Binding CreateShowCommand}"/>
+                        <Button Width="117" Content="Opret Booking" Command="{Binding CreateBookingCommand}"/>
                         <Button Width="121" Margin="12,0,0,0" Content="Fjern Booking"
-                        Command="{Binding RemoveShowCommand}"/>
+                        Command="{Binding RemoveBookingCommand}"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Højre liste (filtreret efter valgt biograf) -->
                 <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Bookinger">
-                    <ListBox ItemsSource="{Binding ShowsView}" SelectedItem="{Binding SelectedShow}">
+                    <ListBox ItemsSource="{Binding BookingView}" SelectedItem="{Binding SelectedBooking}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
