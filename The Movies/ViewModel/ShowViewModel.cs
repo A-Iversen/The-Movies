@@ -109,28 +109,28 @@ namespace The_Movies.ViewModel
             {
             new Cinema("Biffen")
             {
-                Halls = new List<HallClass>
+                Halls = new List<Hall>
                 {
-                    new HallClass("Sal 1", 100 ),
-                    new HallClass("Sal 2", 80 ),
-                    new HallClass("Sal 3", 50 )
+                    new Hall("Sal 1", 100 ),
+                    new Hall("Sal 2", 80 ),
+                    new Hall("Sal 3", 50 )
                 }
             },
             new Cinema("Popcorn")
             {
-                Halls = new List<HallClass>
+                Halls = new List<Hall>
                 {
-                    new HallClass("Sal 1", 120 ),
-                    new HallClass("Sal 2", 90 )
+                    new Hall("Sal 1", 120 ),
+                    new Hall("Sal 2", 90 )
                 }
             },
             new Cinema("Den tredje")
             {
-                Halls = new List<HallClass>
+                Halls = new List<Hall>
                 {
-                    new HallClass("Sal 1", 150 ),
-                    new HallClass("Sal 2", 100 ),
-                    new HallClass("Sal 3", 70 )
+                    new Hall("Sal 1", 150 ),
+                    new Hall("Sal 2", 100 ),
+                    new Hall("Sal 3", 70 )
                 }
             }
             };
