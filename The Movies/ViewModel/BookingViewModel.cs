@@ -32,45 +32,16 @@ namespace The_Movies.ViewModel
         private Show _selectedShow;
         private DateTime _selectedDate;
 
-        public BookingViewModel(FileBookingRepository bookingRepository, FileMovieRepository movieRepository)
+        public BookingViewModel(FileBookingRepository bookingRepo, FileMovieRepository movieRepo, FileShowRepository showRepo, ObservableCollection<Cinema> cinemas)
         {
-            _bookingRepository = bookingRepository;
-            _movieRepository = movieRepository;
-             _showRepository = new FileShowRepository("shows.txt", Cinemas);
-             MovieList = new ObservableCollection<Movie>();
-             AvailableShows = new ObservableCollection<Show>();
+            _bookingRepository = bookingRepo;
+            _movieRepository = movieRepo;
+            _showRepository = showRepo;
 
-            
+            Cinemas = cinemas;
 
-            Cinemas = new ObservableCollection<Cinema>
-            {
-            new Cinema("Biffen")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 100 ),
-                    new Hall("Sal 2", 80 ),
-                    new Hall("Sal 3", 50 )
-                }
-            },
-            new Cinema("Popcorn")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 120 ),
-                    new Hall("Sal 2", 90 )
-                }
-            },
-            new Cinema("Den tredje")
-            {
-                Halls = new List<Hall>
-                {
-                    new Hall("Sal 1", 150 ),
-                    new Hall("Sal 2", 100 ),
-                    new Hall("Sal 3", 70 )
-                }
-            }
-            };
+            MovieList = new ObservableCollection<Movie>();
+            AvailableShows = new ObservableCollection<Show>();
 
 
 

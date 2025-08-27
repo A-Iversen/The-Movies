@@ -103,44 +103,14 @@ namespace The_Movies.ViewModel
             set { _durationMinutesText = value; OnPropertyChanged(nameof(DurationMinutesText)); }
         }
 
-        public ShowViewModel(ObservableCollection<Movie> movieList)
+        public ShowViewModel(ObservableCollection<Movie> movieList, FileShowRepository repository, ObservableCollection<Cinema> cinemas)
         {
             _selectedShow = null;
             
             _movieList = movieList;
+            _repository = repository;
 
-            var sharedCinemas = new ObservableCollection<Cinema>
-{
-    new Cinema("Biffen")
-    {
-        Halls = new List<Hall>
-        {
-            new Hall("Sal 1", 100 ),
-            new Hall("Sal 2", 80 ),
-            new Hall("Sal 3", 50 )
-        }
-    },
-    new Cinema("Popcorn")
-    {
-        Halls = new List<Hall>
-        {
-            new Hall("Sal 1", 120 ),
-            new Hall("Sal 2", 90 )
-        }
-    },
-    new Cinema("Den tredje")
-    {
-        Halls = new List<Hall>
-        {
-            new Hall("Sal 1", 150 ),
-            new Hall("Sal 2", 100 ),
-            new Hall("Sal 3", 70 )
-        }
-    }
-};
-
-            Cinemas = sharedCinemas;
-            _repository = new FileShowRepository("shows.txt", Cinemas);
+            Cinemas = cinemas;
 
             _repository.LoadShowsFromFile(); // ✅ Kald bare metoden her
 
