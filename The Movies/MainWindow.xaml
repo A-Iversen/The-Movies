@@ -18,12 +18,14 @@
                     <ColumnDefinition Width="64*"/>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="21*"/>
-                    <ColumnDefinition Width="674*"/>
+                    <ColumnDefinition Width="39*"/>
+                    <ColumnDefinition Width="11*"/>
+                    <ColumnDefinition Width="624*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="247,347,0,0" VerticalAlignment="Top" 
+                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="197,347,0,0" VerticalAlignment="Top" 
                         Command="{Binding CreateMovieCommand}"
-                        ToolTip="Fill in all fields to create a movie" Grid.Column="5">
+                        ToolTip="Fill in all fields to create a movie" Grid.Column="7">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
@@ -36,21 +38,21 @@
                     </Button.Style>
                 </Button>
                 <!-- Logo -->
-                <Image HorizontalAlignment="Left" Height="100" Margin="227,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png" Grid.Column="5"/>
+                <Image HorizontalAlignment="Left" Height="100" Margin="177,10,0,0" VerticalAlignment="Top" Width="100" Source="Skærmbillede 2025-08-14 135002.png" Grid.Column="7"/>
                 <!-- Titel -->
-                <TextBlock HorizontalAlignment="Left" Margin="131,125,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="131,141,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
+                <TextBlock HorizontalAlignment="Left" Margin="81,125,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Grid.Column="7"/>
+                <TextBox HorizontalAlignment="Left" Margin="81,141,0,0" TextWrapping="Wrap" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="7"/>
                 <!-- Varighed -->
-                <TextBlock HorizontalAlignment="Left" Margin="131,160,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="131,181,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
+                <TextBlock HorizontalAlignment="Left" Margin="81,160,0,0" TextWrapping="Wrap" Text="Varighed (i minutter)" VerticalAlignment="Top" Grid.Column="7"/>
+                <TextBox HorizontalAlignment="Left" Margin="81,181,0,0" TextWrapping="Wrap" Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="7"/>
                 <!-- Filmgenre -->
-                <TextBlock HorizontalAlignment="Left" Margin="131,204,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="131,220,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
+                <TextBlock HorizontalAlignment="Left" Margin="81,204,0,0" TextWrapping="Wrap" Text="Filmgenre" VerticalAlignment="Top" Grid.Column="7"/>
+                <TextBox HorizontalAlignment="Left" Margin="81,220,0,0" TextWrapping="Wrap" Text="{Binding Genre, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="7"/>
                 <!-- Instruktør -->
-                <TextBlock HorizontalAlignment="Left" Margin="131,246,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top" Grid.Column="5"/>
-                <TextBox HorizontalAlignment="Left" Margin="131,262,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="5"/>
-                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie,Mode=TwoWay}"
-                         Margin="310,125,40,125" Grid.Column="5">
+                <TextBlock HorizontalAlignment="Left" Margin="81,246,0,0" TextWrapping="Wrap" Text="Instruktør" VerticalAlignment="Top" Grid.Column="7"/>
+                <TextBox HorizontalAlignment="Left" Margin="81,262,0,0" TextWrapping="Wrap" Text="{Binding Director, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="7"/>
+                <ListBox ItemsSource="{Binding MovieList}" SelectedItem="{Binding SelectedMovie}"
+                         Margin="260,125,40,125" Grid.Column="7">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -62,9 +64,9 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="247,347,0,0" VerticalAlignment="Top" 
+                <Button Content="Opret Film" HorizontalAlignment="Left" Margin="197,347,0,0" VerticalAlignment="Top" 
                     Command="{Binding CreateMovieCommand}"
-                    ToolTip="Fill in all fields to create a movie" Grid.Column="5">
+                    ToolTip="Fill in all fields to create a movie" Grid.Column="7">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -76,9 +78,9 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="340,347,0,0" VerticalAlignment="Top"
+                <Button Content="Fjern Film" HorizontalAlignment="Left" Margin="290,347,0,0" VerticalAlignment="Top"
                     Command="{Binding RemoveMovieCommand}"
-                    ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463" Grid.Column="5">
+                    ToolTip="Vælg en film og klik for at slette den" RenderTransformOrigin="0.495,0.463" Grid.Column="7">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Style.Triggers>
@@ -281,20 +283,20 @@
 
                 <!-- Højre liste (filtreret efter valgt biograf) -->
                 <GroupBox Grid.Column="2" Margin="20,20,20,20" Header="Bookinger">
-                    <ListBox ItemsSource="{Binding BookingView}" SelectedItem="{Binding SelectedBooking}">
+                    <ListBox ItemsSource="{Binding BookingList}" SelectedItem="{Binding SelectedBooking, Mode = TwoWay}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Movie.Title}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Show.Movie.Title}" FontWeight="Bold"/>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Start: "/>
-                                        <TextBlock Text="{Binding ShowTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                        <TextBlock Text="{Binding Show.ShowTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Slut: "/>
-                                        <TextBlock Text="{Binding EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
+                                        <TextBlock Text="{Binding Show.EndTime, StringFormat={}{0:dd-MM-yyyy HH:mm}}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding SelectedHall}"/>
+                                    <TextBlock Text="{Binding Show.Hall.Name}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
